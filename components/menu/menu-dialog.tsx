@@ -2,7 +2,6 @@ import RouteLink from "@components/elements/route-link"
 import Codepen from "@components/icons/codepen"
 import Github from "@components/icons/github"
 import Linkedin from "@components/icons/linkedin"
-import {length} from "@utils/helpers"
 import Twitter from "@components/icons/twitter"
 import {css} from "@emotion/react"
 import styled from "@emotion/styled"
@@ -10,14 +9,20 @@ import useOnClickOutside from "@hooks/click-outside"
 import {pxToRem} from "@styles/css-helpers"
 import {above} from "@styles/media-query"
 import {borderRadius, colors, elevations, fonts} from "@styles/styled-record"
+import {length} from "@utils/helpers"
 import {getActiveLink} from "@utils/helpers"
 import {motion} from "framer-motion"
 import {useRouter} from "next/router"
 import {Fragment, useReducer, useRef} from "react"
 import ReactDOM from "react-dom"
 
+import appData from "../../data/app-data.json"
 import routes from "../../data/routes.json"
 import socialMedia from "../../data/social-data.json"
+
+interface AppDataItem {
+  name: string
+}
 
 const cmdKeys = [
   {
@@ -159,34 +164,46 @@ const SocialWrapper = styled.ul`
   }
 `
 
-const ActionTypes = {
-  SET_FIELD_VALUE: "SET_FIELD_VALUE",
-}
-
-type Action = {type: "SET_FIELD_VALUE"; payload: string}
+type Action = {type: "SET_FIELD_VALUE"; value: string} | {type: "RESET"}
 
 interface State {
   filterValue: string
+  applicationData: Array<AppDataItem>
 }
 
 function reducer(state: State, action: Action) {
   switch (action.type) {
-    case ActionTypes["SET_FIELD_VALUE"]:
-      return {...state, filterValue: action.payload}
+    case "SET_FIELD_VALUE":
+      return {
+        ...state,
+        filterValue: action.value,
+
+        applicationData: state.applicationData.filter(({name}) => {
+          return name.toLowerCase().startsWith(action.value.toLowerCase())
+        }),
+      }
+    case "RESET":
+      return {
+        ...state,
+        filterValue: "",
+        applicationData: appData,
+      }
     default:
       throw new Error(`Unknown action type ${action.type}`)
   }
 }
 
 const MenuDialog = ({closeMenu}: Props) => {
-  const [{filterValue}, dispatch] = useReducer(reducer, {
+  const [{filterValue, applicationData}, dispatch] = useReducer(reducer, {
     filterValue: "",
+    applicationData: appData as Array<AppDataItem>,
   })
   const ref = useRef(null)
   useOnClickOutside(ref, closeMenu)
 
   const router = useRouter()
   const activeLink = getActiveLink(router.pathname)
+  console.log("applicationData", applicationData)
 
   return ReactDOM.createPortal(
     <Overlay
@@ -219,9 +236,17 @@ const MenuDialog = ({closeMenu}: Props) => {
               id="blog-post-search"
               name="search"
               value={filterValue}
-              onChange={(e) =>
-                dispatch({type: "SET_FIELD_VALUE", payload: e.target.value})
-              }
+              onChange={(e) => {
+                console.log("e.target.value", e.target.value.length)
+                if (e.target.value.length > 0) {
+                  dispatch({
+                    type: "SET_FIELD_VALUE",
+                    value: e.target.value,
+                  })
+                } else {
+                  dispatch({type: "RESET"})
+                }
+              }}
             />
           </Label>
         </Form>
