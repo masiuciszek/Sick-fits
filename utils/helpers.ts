@@ -12,3 +12,5 @@ export const getActiveLink = (routerPathName: string) => (pathName: string) =>
 export const toNumber = (str: string): number => parseInt(str, 10)
 export const formatDate = (date: string) =>
   format(parseISO(date), "LLLL do yyyy")
+export const pluralize = <T>(items: Array<T>, value: string) =>
+  items.length === 1 ? value : value + "s"

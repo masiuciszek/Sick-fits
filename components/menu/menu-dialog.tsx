@@ -9,7 +9,7 @@ import useOnClickOutside from "@hooks/click-outside"
 import {pxToRem} from "@styles/css-helpers"
 import {above} from "@styles/media-query"
 import {borderRadius, colors, elevations, fonts} from "@styles/styled-record"
-import {length} from "@utils/helpers"
+import {length, pluralize} from "@utils/helpers"
 import {getActiveLink} from "@utils/helpers"
 import {motion} from "framer-motion"
 import {useRouter} from "next/router"
@@ -94,6 +94,13 @@ const Form = styled.form`
 `
 const Label = styled.label`
   width: 100%;
+  position: relative;
+  span {
+    color: ${colors.colorGray500};
+    position: absolute;
+    right: 12px;
+    top: 12px;
+  }
 `
 
 const Input = styled.input`
@@ -164,7 +171,10 @@ const SocialWrapper = styled.ul`
   }
 `
 
-type Action = {type: "SET_FIELD_VALUE"; value: string} | {type: "RESET"}
+type Action =
+  | {type: "SET_FIELD_VALUE"; value: string}
+  | {type: "RESET"}
+  | {type: "CLEAR_FILTER"}
 
 interface State {
   filterValue: string
@@ -177,9 +187,9 @@ function reducer(state: State, action: Action) {
       return {
         ...state,
         filterValue: action.value,
-
+        // TODO: Improve filter
         applicationData: state.applicationData.filter(({name}) => {
-          return name.toLowerCase().startsWith(action.value.toLowerCase())
+          return name.toLowerCase().indexOf(action.value.toLowerCase()) !== -1
         }),
       }
     case "RESET":
@@ -188,10 +198,19 @@ function reducer(state: State, action: Action) {
         filterValue: "",
         applicationData: appData,
       }
+
     default:
-      throw new Error(`Unknown action type ${action.type}`)
+      throw new Error(`Unknown action type `)
   }
 }
+
+const ApplicationDataList = styled.ul`
+  padding: 1rem 0.2rem;
+  border: 2px solid red;
+  li {
+    color: ${colors.colorTextText};
+  }
+`
 
 const MenuDialog = ({closeMenu}: Props) => {
   const [{filterValue, applicationData}, dispatch] = useReducer(reducer, {
@@ -203,7 +222,6 @@ const MenuDialog = ({closeMenu}: Props) => {
 
   const router = useRouter()
   const activeLink = getActiveLink(router.pathname)
-  console.log("applicationData", applicationData)
 
   return ReactDOM.createPortal(
     <Overlay
@@ -236,8 +254,8 @@ const MenuDialog = ({closeMenu}: Props) => {
               id="blog-post-search"
               name="search"
               value={filterValue}
+              aria-label="Search for a blog post"
               onChange={(e) => {
-                console.log("e.target.value", e.target.value.length)
                 if (e.target.value.length > 0) {
                   dispatch({
                     type: "SET_FIELD_VALUE",
@@ -248,12 +266,24 @@ const MenuDialog = ({closeMenu}: Props) => {
                 }
               }}
             />
+            <span>
+              {filterValue.length > 0 && (
+                <small>
+                  {applicationData.length} {pluralize(applicationData, "item")}{" "}
+                  found{" "}
+                </small>
+              )}
+            </span>
           </Label>
         </Form>
 
         <Container>
-          {length(filterValue) ? (
-            <p>item</p>
+          {length(filterValue) > 0 ? (
+            <ApplicationDataList>
+              {applicationData.map(({name}) => (
+                <li key={name}>{name}</li>
+              ))}
+            </ApplicationDataList>
           ) : (
             <Fragment>
               <Banner text="Command shortcuts" />
