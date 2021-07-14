@@ -14,7 +14,7 @@ import {getActiveLink} from "@utils/helpers"
 import {motion} from "framer-motion"
 import {useRouter} from "next/router"
 import {Fragment, useReducer, useRef} from "react"
-import ReactDOM from "react-dom"
+import {createPortal} from "react-dom"
 
 import appData from "../../data/app-data.json"
 import routes from "../../data/routes.json"
@@ -223,7 +223,7 @@ const MenuDialog = ({closeMenu}: Props) => {
   const router = useRouter()
   const activeLink = getActiveLink(router.pathname)
 
-  return ReactDOM.createPortal(
+  return createPortal(
     <Overlay
       data-testid="components-app-MenuDialog"
       role="dialog"
