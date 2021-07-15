@@ -12,7 +12,6 @@ const HomePageLayout = styled.section`
   display: grid;
   grid-template-columns: 1fr;
   height: 100%;
-
   @media ${above.tablet} {
     grid-template-columns: 1fr 1fr;
     margin-top: 4rem;

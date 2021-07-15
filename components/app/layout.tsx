@@ -8,9 +8,7 @@ import Header from "./header"
 const Main = styled.main`
   max-width: ${sizes.maxWidth};
   margin: 0 auto;
-  min-height: calc(
-    110vh - ${sizes.headerHeight} * 2
-  ); /**Footer and height footer height TIMES header height */
+  min-height: calc(100vh - 210px); /**header and footer */
   margin-bottom: 2rem;
 `
 

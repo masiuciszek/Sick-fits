@@ -1,5 +1,6 @@
 import RouteLink from "@components/elements/route-link"
 import Codepen from "@components/icons/codepen"
+import Enter from "@components/icons/enter"
 import Github from "@components/icons/github"
 import Linkedin from "@components/icons/linkedin"
 import Twitter from "@components/icons/twitter"
@@ -12,6 +13,7 @@ import {borderRadius, colors, elevations, fonts} from "@styles/styled-record"
 import {length, pluralize} from "@utils/helpers"
 import {getActiveLink} from "@utils/helpers"
 import {motion} from "framer-motion"
+import Link from "next/link"
 import {useRouter} from "next/router"
 import {Fragment, useReducer, useRef} from "react"
 import {createPortal} from "react-dom"
@@ -149,7 +151,6 @@ const SocialWrapper = styled.ul`
   flex-flow: column wrap;
   justify-content: space-evenly;
   margin: 0 auto;
-
   li {
     display: flex;
     align-items: center;
@@ -171,10 +172,10 @@ const SocialWrapper = styled.ul`
   }
 `
 
-type Action =
-  | {type: "SET_FIELD_VALUE"; value: string}
-  | {type: "RESET"}
-  | {type: "CLEAR_FILTER"}
+const SET_FIELD_VALUE = "SET_FIELD_VALUE"
+const RESET = "RESET"
+
+type Action = {type: "SET_FIELD_VALUE"; value: string} | {type: "RESET"}
 
 interface State {
   filterValue: string
@@ -183,7 +184,7 @@ interface State {
 
 function reducer(state: State, action: Action) {
   switch (action.type) {
-    case "SET_FIELD_VALUE":
+    case SET_FIELD_VALUE:
       return {
         ...state,
         filterValue: action.value,
@@ -192,7 +193,7 @@ function reducer(state: State, action: Action) {
           return name.toLowerCase().indexOf(action.value.toLowerCase()) !== -1
         }),
       }
-    case "RESET":
+    case RESET:
       return {
         ...state,
         filterValue: "",
@@ -204,11 +205,20 @@ function reducer(state: State, action: Action) {
   }
 }
 
-const ApplicationDataList = styled.ul`
-  padding: 1rem 0.2rem;
-  border: 2px solid red;
+const SearchList = styled.ul`
   li {
     color: ${colors.colorTextText};
+    padding: ${pxToRem(10)};
+    font-family: ${fonts.operatorMonoDefault};
+    transition: 200ms ease-in-out background-color;
+    a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    &:hover {
+      background-color: ${colors.colorGray100};
+    }
   }
 `
 
@@ -279,11 +289,17 @@ const MenuDialog = ({closeMenu}: Props) => {
 
         <Container>
           {length(filterValue) > 0 ? (
-            <ApplicationDataList>
+            <SearchList>
               {applicationData.map(({name}) => (
-                <li key={name}>{name}</li>
+                <li key={name}>
+                  <Link href={`/blog/${name}`}>
+                    <a>
+                      {name} <Enter />{" "}
+                    </a>
+                  </Link>
+                </li>
               ))}
-            </ApplicationDataList>
+            </SearchList>
           ) : (
             <Fragment>
               <Banner text="Command shortcuts" />
@@ -343,7 +359,6 @@ function renderIcon(name: string) {
       return <Linkedin width={20} height={20} />
     case "codepen":
       return <Codepen width={20} height={20} />
-
     default:
       throw new Error(`Unknown name ${name} `)
   }

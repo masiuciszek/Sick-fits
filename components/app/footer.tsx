@@ -16,7 +16,6 @@ const FooterGroup = styled.section`
   display: grid;
   grid-template-columns: 1fr;
   margin: 0 auto;
-
   height: 100%;
   .say-hi {
     flex: 1 0 20%;
@@ -112,8 +111,9 @@ const Footer = () => {
           `}
         >
           <small>
-            &#169; {currentYear} Copyright <span>Marcell Ciszek Druzysnki</span>. All rights
-            reserved. Built using <a href="https://nextjs.org/">Next JS</a>
+            &#169; {currentYear} Copyright <span>Marcell Ciszek Druzysnki</span>
+            . All rights reserved. Built using{" "}
+            <a href="https://nextjs.org/">Next JS</a>
           </small>
         </div>
       </FooterGroup>
