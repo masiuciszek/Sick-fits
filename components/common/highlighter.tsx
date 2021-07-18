@@ -1,4 +1,4 @@
-import {css} from "@emotion/react"
+import {css, SerializedStyles} from "@emotion/react"
 import {colors} from "@styles/styled-record"
 import {FC} from "react"
 
@@ -7,10 +7,15 @@ const styles = css`
   background: transparent;
 `
 
-const Highlighter: FC = ({children}) => (
+interface Props {
+  incomingStyles?: SerializedStyles
+}
+
+const Highlighter: FC<Props> = ({children, incomingStyles}) => (
   <mark
     css={css`
       ${styles};
+      ${incomingStyles};
     `}
   >
     {children}

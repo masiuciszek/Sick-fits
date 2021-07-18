@@ -8,6 +8,27 @@ import {NextPage} from "next"
 import Link from "next/link"
 import {Fragment} from "react"
 
+const Home: NextPage = () => (
+  <Fragment>
+    <HomePageLayout>
+      <Intro />
+      <CtaColumn>
+        <HiIAmMarcell />
+        <LinkGroup>
+          <Link href="/blog">
+            <a>blog</a>
+          </Link>
+          <Link href="/bites">
+            <a>bites</a>
+          </Link>
+        </LinkGroup>
+      </CtaColumn>
+    </HomePageLayout>
+  </Fragment>
+)
+
+export default Home
+
 const HomePageLayout = styled.section`
   display: grid;
   grid-template-columns: 1fr;
@@ -45,24 +66,3 @@ const LinkGroup = styled.div`
     width: 20rem;
   }
 `
-
-const Home: NextPage = () => (
-  <Fragment>
-    <HomePageLayout>
-      <Intro />
-      <CtaColumn>
-        <HiIAmMarcell />
-        <LinkGroup>
-          <Link href="/blog">
-            <a>blog</a>
-          </Link>
-          <Link href="/bites">
-            <a>bites</a>
-          </Link>
-        </LinkGroup>
-      </CtaColumn>
-    </HomePageLayout>
-  </Fragment>
-)
-
-export default Home

@@ -220,6 +220,7 @@ export const GlobalStyles = () => (
         font-weight: 400;
         list-style: none;
         font-family: var(--radnika);
+        margin-bottom: 0.25rem;
       }
       a {
         text-decoration: none;

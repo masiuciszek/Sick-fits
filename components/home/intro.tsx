@@ -9,6 +9,34 @@ import {above} from "@styles/media-query"
 import {colors} from "@styles/styled-record"
 import Link from "next/link"
 
+const Intro = () => (
+  <Title incomingStyles={styles}>
+    <h1>
+      <span>
+        Hello, I&#39;m Marcell, and this is my personal site/blog.
+        <Wave />{" "}
+      </span>
+      <span>
+        {" "}
+        Here is where I share my thoughts , ideas and experience as a software
+        developer, and everything that interests me that I would love to share
+        Topics like <Highlighter>computer science</Highlighter>,{" "}
+        <Highlighter>React</Highlighter>,{" "}
+        <Highlighter>software engineering</Highlighter>, and a good{" "}
+        <Highlighter>user experience</Highlighter> are close to my heart.
+      </span>
+    </h1>
+    <LinkWrapper>
+      <Link href="/about">About me &#8599; </Link>
+      <a href="https://twitter.com/masiu_cd">
+        @masiu_cd <Twitter />
+      </a>
+    </LinkWrapper>
+  </Title>
+)
+
+export default Intro
+
 const styles = css`
   background-color: ${colors.colorBgBackground};
   padding: 2rem;
@@ -60,33 +88,3 @@ const LinkWrapper = styled.div`
     font-size: ${pxToRem(20)};
   }
 `
-
-const Intro = () => {
-  return (
-    <Title incomingStyles={styles}>
-      <h1>
-        <span>
-          Hello, I&#39;m Marcell, and this is my personal site/blog.
-          <Wave />{" "}
-        </span>
-        <span>
-          {" "}
-          Here where I share my thoughts, ideas, and experience as a software
-          engineer and everything that interests me that I would love to share.
-          Topics like <Highlighter>computer science</Highlighter>,{" "}
-          <Highlighter>React</Highlighter>,{" "}
-          <Highlighter>software engineering</Highlighter>, and a good{" "}
-          <Highlighter>user experience</Highlighter> are close to my heart.
-        </span>
-      </h1>
-      <LinkWrapper>
-        <Link href="/about">About me &#8599; </Link>
-        <a href="https://twitter.com/masiu_cd">
-          @masiu_cd <Twitter />
-        </a>
-      </LinkWrapper>
-    </Title>
-  )
-}
-
-export default Intro
