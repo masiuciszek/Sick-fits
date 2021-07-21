@@ -8,9 +8,220 @@ keywords: ["wtf", "vip"]
 slug: js-closures
 ---
 
-> > Closure is something that access the value the that is not defined inside of it.
+What are closures actually and why is this a so common term in programming.
+If you have been applied for a JavaScript interview you probably got the question from the interviewer that you should explain what a closure is and how it works.
 
-In this example when we run the function we capture the `i` variable in closure and i will be incremented from 1 to 3.
+A closure is a function that can access stuff not inside of it.
+So for example
+
+> Closure is something that access the value the that is not defined inside of it.
+
+```js
+let name = "Filip"
+const whatUp = () => {
+  console.log(`hello ${name}`)
+}
+whatUp() // Filip
+
+name = "Marcell"
+whatUp() // Marcell
+```
+
+In this example, we will receive first hello Bob and then when we assign the name variable and call the function again we will get hello Marcell.
+
+Another good example of how closures work is if we would define our variable inside the function or outside, and what kind of differences would we get.
+
+```js
+let i = 0
+const increment = () => {
+  ++i
+  console.log(i)
+}
+increment() //1
+increment() //2
+increment() //3
+increment() //4
+```
+
+The increment function works as a closure and it is like it has its own memory and can remember what the previous I variable was.
+So every time we would call the increment function we would receive an updated value of i-variable.
+
+> It is the ability of a function to capture anything outside of the function and use that value every time our function gets called, that is what makes closures special.
+
+So what would happened if we define the variable I inside the function?
+
+```js
+const increment = () => {
+  let i = 0
+  ++i
+  console.log(i)
+}
+increment() //1
+increment() //1
+increment() //1
+increment() //1
+```
+
+We would not get the same result as the previous example, that the I variable has been updated.
+Every time we call the function we create a brand new function within the funcion scope.
+
+But we don’t want to create global variables in our programs right?
+What is so great with function in javascript is that all functions are first-class functions that mean that functions can be passed around as any value, we can define multiple functions inside another function.
+The function can be passed as an argument to other functions, can be returned by another function, and can be assigned as a value to a variable.
+
+Take the built-in higher-order functions like `Array.prototype.map`, `Array.prototype.filter`, and `Array.prototype.reduce`, for example, if you used them which is common when you write JavaScript programs, they can access the outer scoper thanks to closures.
+
+But let’s go a little further and try to understand closures better by the understanding scope and lexical scope in JavaScript.
+
+To create scope in JavaScript is when we define a function or a code block for example an if statement.
+
+How we access a variable inside a block is managed by the scope.
+
+So back to our counter-example:
+When we define the variable inside the function we can’t access it outside the function scope,
+We have simply created a private variable defined inside the function block.
+We only have access to the variable inside the function scope.
+
+Since the variables we create are just bounded to the scope where they got created, we can define a new variable with the same name and value inside another function because they are not defined within the same function scope.
+
+We can do nested scopes and here is when the true power kicks in by using closures and understanding how the scope works.
+
+```js
+function parent() {
+  let parentVariable = "Hello there"
+  function child() {
+    console.log(parentVariable)
+  }
+  child()
+}
+
+parent() // Hello there
+```
+
+- You see here how the inner function `(child)` have access to the parent scope.
+- We can nest scopes, and the inner function has access to the variables that are defined in the parent scope.
+- Parent function does not have access to the child scope.
+
+What whould happend in this case?
+Do we expect the same result, do we get the same kind of error since we defining 2 variables within the same name?
+Let's see what result we get.'
+
+```js
+function parent() {
+  let parentVariable = "Hello there"
+  function child() {
+    let parentVariable = "From the child"
+    console.log(parentVariable)
+  }
+  child()
+}
+
+parent() // From the child
+```
+
+We print the value of the variable that gets defined inside the child function, since it was created from its function scope it will use that variable even if we have the same variable defined in the parent scope.
+Since they are defined in different scopes we will not get any error, in this case, we just shadowing the `parentVariable` defined in the parent function scope.
+
+But how can the child functions have access to the variable defined in the parent scope? As well as how does JavaScript knows what variable is corsponds to what scope?
+This is when we come to understanding the `lexical` scope in JavaScript.
+JavaScript does also have a concept called `lexical scope`, that inside a inner scope we still have acceess to the outer scope, so in the example the parent scope.
+
+We can brake it down in to a metafor how the compiler compile ot JavaScript code.
+
+Take the first example in this case.
+
+```js
+function parent() {
+  let parentVariable = "Hello there"
+  function child() {
+    console.log(parentVariable)
+  }
+  child()
+}
+
+parent() // Hello there
+```
+
+1. First we declare the `parent` function, and the compiler says: _hey I can see that you declared a varaible inside the parent function named `parentVariable`_
+2. _Hey but I can also see that you using a variable without any declaration, I know `lexical scoping` so I will just use the variable that is defined in scope above `(the parent scoper)`_
+
+#### How I like to vizualize lexical scoping
+
+I like to vizulize the lexical scoping like an builing with a lot of floors, we start at the bottom floor.
+We looking for our cat Bella that has run away, we knock on every door to find her.
+Now one has seen Bella but they think they saw here higher up in the bulding, so we go up one floor and look for her there, and we repeat this until we find her.
+
+So same concept, if we have deeply nested blocks we start from the most deeply nested function and walk our way up to find the variable.
+
+```js
+const GLOBAL = "global" // global scope
+function grandGrandFather() {
+  let age = 92
+  function grandFather() {
+    function parent(params) {
+      function child(params) {
+        // Go up to the grandGrandFather scope where it is declared
+        console.log(`My grandGrandFather is ${age} years old`)
+        console.log(`I also have access to the Global scope  ${GLOBAL} `) // go up to the global scope
+      }
+      child()
+    }
+    parent()
+  }
+  grandFather()
+}
+
+grandGrandFather()
+```
+
+But is does how `closures` works or what are you explaing here Marcell?
+We are very close to understand the power of closures, we know how lexical scoping works and that the inner function will have access to the variables/objects of the parent scope.
+
+```js
+const counter = () => {
+  let i = 0
+  const run = () => {
+    i++
+    console.log(i)
+  }
+  run()
+}
+counter()
+```
+
+We are invkoing the `run` function inside the `counter function` to log out the result, but let's change it and try to return the inner function instead so we can use it outside the function scope and it's lexical scope, `aka the power of closures`.
+
+```js
+const counter = () => {
+  let i = 0
+  return () => {
+    i++
+    console.log(i)
+  }
+}
+
+let runCounter = counter()
+runCounter() //1
+runCounter() //2
+runCounter() //3
+```
+
+Now we have more control and can run the inner function the uses lexical scopeing even outside the the function scope, really cool ond poweful.
+So simply said the inder function `closes` over the variable `i` from its lexical scope, _`it captures,rememebr the variable`_.
+The inner function that get's returned is our `closure`, it remebers what value the `i` is even outside the function scope.
+
+> a closure gives you access to an outer function’s scope from an inner function. In JavaScript, closures are created every time a function is created, at function creation time. // MDN web docs
+
+### So what is a closure?
+
+A closure is a function that remembers from the area it was defined, even if we use it later and execute it.
+So if you see any variable that is not defined somewhere nearby then it is properly a `closure` we found, it has `captured` that variable.
+
+### Let's show some examples of closures
+
+### conclusion
+
+<!-- In this example when we run the function we capture the `i` variable in closure and i will be incremented from 1 to 3.
 
 <CodeBlock
   code={`let i: number = 0\n const closure = () => {\n ++i \n console.log(i)\n} \n closure() /*1*/ \n closure() /*2*/ \n closure() /*3*/ \n`}
@@ -22,4 +233,4 @@ But if we would define the i insdie the function we wouild not capture the closu
 <CodeBlock
   code={`const closure = (): void => {\n  let i = 0\n  ++i\n  console.log(i) \n} \n closure() /*1*/ \n closure() /*1*/ \n closure() /*1*/ \n`}
   language="ts"
-/>
+/> -->
