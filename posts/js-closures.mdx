@@ -215,22 +215,48 @@ The inner function that get's returned is our `closure`, it remebers what value 
 ### So what is a closure?
 
 A closure is a function that remembers from the area it was defined, even if we use it later and execute it.
-So if you see any variable that is not defined somewhere nearby then it is properly a `closure` we found, it has `captured` that variable.
+So if you see any variable that is not defined somewhere nearby ore in the function then it is properly a `closure`, it has `captured`,`closed` over that variable.
 
 ### Let's show some examples of closures
 
+Working with React hooks you are using `closures`, for example when we build a simple counter with react hooks.
+The way how we make our increment counter is that we keep the previos `count` value in closure.
+Take a look at this code example, and try to increment and decrement the counter.
+
+<Counter />
+
+```tsx
+import {useState} from "react"
+
+const Counter = () => {
+  const [state, setState] = useState(0)
+  return (
+    <aside>
+      <h1>count is {state}</h1>
+      <div className="buttons">
+        <button onClick={() => setState((prevState) => prevState + 1)}>
+          increment
+        </button>
+        <button onClick={() => setState((prevState) => prevState - 1)}>
+          decrement
+        </button>
+      </div>
+    </aside>
+  )
+}
+
+export default Counter
+```
+
+**With higher order functions** we use closures as well, for example when we try to transform one list into a new list using `Array.prototype.find`.
+For example this code block uses closure to find the correct name in the list.
+
+```js
+const names = ["bob", "frank", "tina", "logan"]
+const nameToFind = "frank"
+const upperNames = names.find((name) => name === nameToFind))
+```
+
+We using closures here becasue `nameToFind` is defiend outside of the function, its a `closure`
+
 ### conclusion
-
-<!-- In this example when we run the function we capture the `i` variable in closure and i will be incremented from 1 to 3.
-
-<CodeBlock
-  code={`let i: number = 0\n const closure = () => {\n ++i \n console.log(i)\n} \n closure() /*1*/ \n closure() /*2*/ \n closure() /*3*/ \n`}
-  language="ts"
-/>
-
-But if we would define the i insdie the function we wouild not capture the closure because `i` would be a new value for every function execution.
-
-<CodeBlock
-  code={`const closure = (): void => {\n  let i = 0\n  ++i\n  console.log(i) \n} \n closure() /*1*/ \n closure() /*1*/ \n closure() /*1*/ \n`}
-  language="ts"
-/> -->

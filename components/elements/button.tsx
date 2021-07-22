@@ -51,7 +51,7 @@ const Button: FC<Props> = ({
       type="button"
       css={css`
         ${styles(type)};
-        ${incomingStyles};
+        ${incomingStyles ? incomingStyles : null};
       `}
       {...config}
     >

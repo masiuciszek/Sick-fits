@@ -7,6 +7,7 @@ import Seo from "@components/common/seo"
 import Brackets from "@components/icons/brackets"
 import Hash from "@components/icons/hash"
 import CodeBlock from "@components/mdx/code-block"
+import Counter from "@components/mdx/examples/counter"
 import {css} from "@emotion/react"
 import styled from "@emotion/styled"
 import {pxToRem} from "@styles/css-helpers"
@@ -224,5 +225,7 @@ const EditPostLink = styled.a`
 
 const components = {
   // CodeBlock: dynamic(() => import("../../components/mdx/code-block")),
-  CodeBlock,
+  // CodeBlock,
+  code: CodeBlock,
+  Counter,
 }

@@ -1,9 +1,9 @@
 import styled from "@emotion/styled"
+import {fonts} from "@styles/styled-record"
 import Highlight, {defaultProps, Language} from "prism-react-renderer"
 import theme from "prism-react-renderer/themes/nightOwl"
 
 interface Props {
-  code: string
   language?: Language
 }
 
@@ -12,6 +12,7 @@ const Pre = styled.pre`
   margin: 1em 0;
   padding: 0.5em;
   overflow: scroll;
+  font-family: ${fonts.operaorMono};
 `
 
 const Line = styled.div`
@@ -30,8 +31,13 @@ const LineContent = styled.span`
   display: table-cell;
 `
 
-const CodeBlock: React.FC<Props> = ({code, language = "tsx"}) => (
-  <Highlight {...defaultProps} theme={theme} code={code} language={language}>
+const CodeBlock: React.FC<Props> = ({children, language = "tsx"}) => (
+  <Highlight
+    {...defaultProps}
+    theme={theme}
+    code={children?.toString() as string}
+    language={language}
+  >
     {({className, style, tokens, getLineProps, getTokenProps}) => (
       <Pre className={className} style={style}>
         {tokens.map((line, i) => (
