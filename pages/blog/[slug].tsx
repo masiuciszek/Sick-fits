@@ -184,6 +184,15 @@ const PostWrapper = styled.article`
       font-family: ${fonts.operaorMonoHco};
     }
   }
+  code {
+    font-size: ${pxToRem(16)};
+    color: ${colors.colorHighlight};
+    font-family: ${fonts.operaorMono};
+    font-weight: 500;
+  }
+  ul {
+    list-style: inside;
+  }
 `
 
 const List = styled.ul`
@@ -196,7 +205,7 @@ const List = styled.ul`
 
 const EditPostLink = styled.a`
   position: absolute;
-  top: 5rem;
+  top: 1rem;
   right: 2rem;
   display: flex;
   align-items: center;
@@ -225,7 +234,7 @@ const EditPostLink = styled.a`
 
 const components = {
   // CodeBlock: dynamic(() => import("../../components/mdx/code-block")),
-  // CodeBlock,
+
   code: CodeBlock,
   Counter,
 }

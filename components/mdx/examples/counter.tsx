@@ -6,8 +6,6 @@ import {borderRadius, colors, elevations} from "@styles/styled-record"
 import {useState} from "react"
 
 const Aside = styled.aside`
-  border: 1px solid #000;
-  max-width: ${pxToRem(400)};
   margin: 2rem auto;
   display: flex;
   flex-direction: column;
@@ -16,7 +14,7 @@ const Aside = styled.aside`
   .buttons {
     display: flex;
     justify-content: space-evenly;
-    width: 100%;
+    width: ${pxToRem(400)};
     padding: 1rem 0;
   }
 `
@@ -45,6 +43,7 @@ const Counter = () => {
         <Button
           incomingStyles={btnStyles}
           onClick={() => setState((prevState) => prevState - 1)}
+          isDisabled={state === 0}
         >
           decrement
         </Button>

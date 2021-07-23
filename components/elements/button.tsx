@@ -24,6 +24,10 @@ const styles = (type: BtnType) => css`
   ${buttonResetStyles};
   ${type === "solid" ? buttonStyles : null};
   width: 4rem;
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 `
 
 interface Props {
@@ -35,6 +39,7 @@ interface Props {
     string | boolean | number | Record<string, string | boolean | number>
   >
   type?: BtnType
+  isDisabled?: boolean
 }
 
 const Button: FC<Props> = ({
@@ -44,10 +49,12 @@ const Button: FC<Props> = ({
   children,
   config,
   type = "default",
+  isDisabled,
 }) => {
   return (
     <motion.button
       onClick={onClick}
+      disabled={isDisabled}
       type="button"
       css={css`
         ${styles(type)};
