@@ -9,7 +9,7 @@ interface Props {
 
 const Pre = styled.pre`
   text-align: left;
-  margin: 1em 0;
+  margin: 1em 0 2em 0;
   padding: 0.5em;
   overflow: scroll;
   font-family: ${fonts.operaorMono};

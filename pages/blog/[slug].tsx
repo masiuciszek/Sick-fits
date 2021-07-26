@@ -233,7 +233,7 @@ const BlogPostLayout = styled.article`
     font-weight: 500;
   }
   ul {
-    list-style: inside;
+    list-style: square;
   }
   p {
     margin-bottom: 0.75rem;

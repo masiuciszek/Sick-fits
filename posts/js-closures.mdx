@@ -76,24 +76,34 @@ The function can be passed as an argument to other functions, can be returned by
 
 Take the built-in higher-order functions like `Array.prototype.map`, `Array.prototype.filter`, and `Array.prototype.reduce`, for example, if you used them which is common when you write JavaScript programs, they can access the outer scoper thanks to closures.
 
-But let’s go a little further and try to understand closures better by the understanding scope and lexical scope in JavaScript.
+But let’s go a little further and try to understand closures better by the understanding how the function life cycle works in `JavaScript.`
 
-## Scope and lexical scope
+## Execution context
+
+_Short about the life cycle of a JavaScript function\._
 
 When we run our function, we create a brand new execution context, a brand new scope, when we are done that scope goes away.
 If we call the same function a second time we create a whole different scope for that specifik exacution context, then the second scope goes away.
 
 ```js
 function saySomething() {
-  console.log("Hello there")
+  let name = "Marcell"
+  console.log(`Hello there ${name}`)
 }
 
 saySomething()
 saySomething()
 ```
 
-To create scope in JavaScript is when we define a function or a code block for example an if statement.
+The scopes are totaly different and have nothing common at all except that they use the same function.
+The variable `name` inside the function will be recreated for every `execution context`.
 
+Every function scope has its own lifetime, the get created and as soon they are doen they go away.
+The only scope that never goes away is the `global` scope that is alive through the whole program.
+
+## Scope and lexical scope
+
+To create scope in JavaScript is when we define a function or a code block for example an if statement.
 How we access a variable inside a block is managed by the scope.
 
 So back to our counter-example:
@@ -289,8 +299,6 @@ If we whould defined the count variable inside the `counter` function we would n
 })()
 ```
 
----
-
 **With higher order functions** we are using closures as well, for example when we
 try to transform one list into a new list using `Array.prototype.find`. For example
 this code block uses closure to find the correct name in the list.
@@ -302,8 +310,6 @@ const upperNames = names.find((name) => name === nameToFind))
 ```
 
 We using closures here becasue `nameToFind` is defiend outside of the function, its a `closure`
-
----
 
 **In callbacks** it it common to use closures as well, by capturing the variable from the lexical scope, inside the `fn` function.
 
@@ -322,8 +328,6 @@ console.log(fn(toUpper)) // MARCELL
 console.log(fn(firstLetter)) // M
 console.log(fn(lastLetter)) // l
 ```
-
----
 
 **Curried function**, in functional programing closure is a very important concept since without closure we could not achive curried functions.
 
