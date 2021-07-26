@@ -12,6 +12,8 @@ What are closures actually and why is this a so common term in programming.
 If you have been applied for a JavaScript interview you probably got the question from the interviewer that you should explain what a closure is and how it works.
 
 A closure is a function that can access stuff not inside of it.
+Every function we create in `JavaScript` has a closure.
+As soon we enable/call our function thir closures enable them to access the values from thier scopes.
 So for example
 
 > Closure is something that access the value the that is not defined inside of it.
@@ -44,7 +46,10 @@ increment() //4
 ```
 
 The increment function works as a closure and it is like it has its own memory and can remember what the previous I variable was.
-So every time we would call the increment function we would receive an updated value of i-variable.
+So every time we would call the increment function we would receive an updated value of i-variable\.
+
+**Something good to know is that:**
+_A closure is created when you define a function not when we execute it. Then, every time we call that function, it will give us access to the defined `closures` from their function scopes\._
 
 > It is the ability of a function to capture anything outside of the function and use that value every time our function gets called, that is what makes closures special.
 
@@ -72,6 +77,20 @@ The function can be passed as an argument to other functions, can be returned by
 Take the built-in higher-order functions like `Array.prototype.map`, `Array.prototype.filter`, and `Array.prototype.reduce`, for example, if you used them which is common when you write JavaScript programs, they can access the outer scoper thanks to closures.
 
 But let’s go a little further and try to understand closures better by the understanding scope and lexical scope in JavaScript.
+
+## Scope and lexical scope
+
+When we run our function, we create a brand new execution context, a brand new scope, when we are done that scope goes away.
+If we call the same function a second time we create a whole different scope for that specifik exacution context, then the second scope goes away.
+
+```js
+function saySomething() {
+  console.log("Hello there")
+}
+
+saySomething()
+saySomething()
+```
 
 To create scope in JavaScript is when we define a function or a code block for example an if statement.
 
@@ -151,7 +170,7 @@ I like to vizulize the lexical scoping like an builing with a lot of floors, we 
 We looking for our cat Bella that has run away, we knock on every door to find her.
 Now one has seen Bella but they think they saw here higher up in the bulding, so we go up one floor and look for her there, and we repeat this until we find her.
 
-So same concept, if we have deeply nested blocks we start from the most deeply nested function and walk our way up to find the variable.
+So same concept, if we have deeply nested blocks we start from the most deeply nested function and walk our way up to find the variable we are looking for.
 
 ```js
 const GLOBAL = "global" // global scope
@@ -174,7 +193,7 @@ function grandGrandFather() {
 grandGrandFather()
 ```
 
-But is does how `closures` works or what are you explaing here Marcell?
+How is this really related to `closures` Marcell?
 We are very close to understand the power of closures, we know how lexical scoping works and that the inner function will have access to the variables/objects of the parent scope.
 
 ```js
@@ -219,39 +238,62 @@ So if you see any variable that is not defined somewhere nearby ore in the funct
 
 ### Examples of closures
 
-Working with React hooks you are using `closures`, for example when we build a simple counter with react hooks.
+<!-- Working with React hooks you are using `closures`, for example when we build a simple counter with react hooks.
 The way how we make our increment counter is that we keep the previos `count` value in closure.
-Take a look at this code example, and try to increment and decrement the counter.
+Take a look at this code example, and try to increment and decrement the counter. -->
+
+A simple counter example from the example above using `closures`.
+Working with the dom we simply can create a visual representing of a counter and interact with it using `closures`.
+We also added a functionality to disable the button when count is equal to 0.
+Notice how we capture the count value inside the `counter` function.
+We keep track of the count variable and remember what its previous value was.
+If we whould defined the count variable inside the `counter` function we would not achive the same result since we would get a brand new `count` value for every function call.
 
 <Counter />
 
-```tsx
-import {useState} from "react"
+```js
+;(() => {
+  let count = 0
+  const counter = () => {
+    const incrementCount = () => {
+      ++count
+    }
+    const decrementCount = () => {
+      --count
+    }
+    return {incrementCount, decrementCount}
+  }
 
-const Counter = () => {
-  const [state, setState] = useState(0)
-  return (
-    <aside>
-      <h1>count is {state}</h1>
-      <div className="buttons">
-        <button onClick={() => setState((prevState) => prevState + 1)}>
-          increment
-        </button>
-        <button onClick={() => setState((prevState) => prevState - 1)}>
-          decrement
-        </button>
-      </div>
-    </aside>
-  )
-}
+  document.getElementById("count").innerHTML = `<span>${count}</span>`
 
-export default Counter
+  check()
+  document.getElementById("increment").addEventListener("click", () => {
+    counter().incrementCount()
+    document.getElementById("count").innerHTML = `<span>${count}</span>`
+    check()
+  })
+
+  document.getElementById("decrement").addEventListener("click", () => {
+    counter().decrementCount()
+    document.getElementById("count").innerHTML = `<span>${count}</span>`
+    check()
+  })
+
+  function check() {
+    if (count === 0) {
+      document.getElementById("decrement").removeAttribute("disabled")
+    } else {
+      document.getElementById("decrement").setAttribute("disabled", "true")
+    }
+  }
+})()
 ```
 
 ---
 
-**With higher order functions** we are using closures as well, for example when we try to transform one list into a new list using `Array.prototype.find`.
-For example this code block uses closure to find the correct name in the list.
+**With higher order functions** we are using closures as well, for example when we
+try to transform one list into a new list using `Array.prototype.find`. For example
+this code block uses closure to find the correct name in the list.
 
 ```js
 const names = ["bob", "frank", "tina", "logan"]
@@ -312,8 +354,7 @@ Why this concept is so useful is becasue we made our function dynamic, we can ha
 - It still the scope that decides how we will access the variable.
 - `Closure` is a function the close over a value, capturing the value, it remebers the variableform where it was defined.
 - We have a closure when a functions reads and writes a variable that is decalred outside of the function.
-  <br />
-  <br />
+
   Something to know about closures is that we also need to be careful with them,
   there is a reason why in low level languages like `C` that you don't have
   closures. `Rust` have closures but to use them you need to write a specifik
