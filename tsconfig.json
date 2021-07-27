@@ -28,6 +28,6 @@
       "@data/*": ["json-data/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "decs.d.ts"],
   "exclude": ["./**/*.test.tsx", "node_modules"]
 }

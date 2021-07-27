@@ -1,4 +1,6 @@
 import {serialize} from "next-mdx-remote/serialize"
+// import imageMetadata from "plugins/image-metadata"
+// import imageSize from "rehype-image-size"
 
 interface Serialization {
   post: {
@@ -15,7 +17,9 @@ export const serializeMdx = async ({post, content, options}: Serialization) =>
   await serialize(content, {
     mdxOptions: {
       ...options,
+      // rehypePlugins: [imageMetadata],
     },
+
     scope: post,
   })
 // const mdxSource = await serialize(content, {

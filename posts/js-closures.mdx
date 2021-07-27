@@ -18,6 +18,10 @@ So for example
 
 > Closure is something that access the value the that is not defined inside of it.
 
+Ore like [`Kyle Simpsons`](https://github.com/getify/You-Dont-Know-JS) defines clsures:
+
+> Closure is when a function is able to remember and access its lexical scope even when that function is executing outside its lexical scope.
+
 ```js
 let name = "Filip"
 const whatUp = () => {
@@ -30,8 +34,8 @@ whatUp() // Marcell
 ```
 
 In this example, we will receive first hello Bob and then when we assign the name variable and call the function again we will get hello Marcell.
-
-Another good example of how closures work is if we would define our variable inside the function or outside, and what kind of differences would we get.
+Another good example of how closures works is to implement a simple counter. Here we expect that the `i` varaible should be incremented by one for every function call.
+And it does!
 
 ```js
 let i = 0
@@ -174,7 +178,125 @@ parent() // Hello there
 1. First we declare the `parent` function, and the compiler says: _hey I can see that you declared a varaible inside the parent function named `parentVariable`_
 2. _Hey but I can also see that you using a variable without any declaration, I know `lexical scoping` so I will just use the variable that is defined in scope above `(the parent scoper)`_
 
+### Don't mix closures and scopes
+
+We should not mix these two concepts because they are not the same.
+Closures spans multiple scopes and will not go away even after the function is done executing.
+A difference between scopes and closures are that a closure will still live after the function execution shile scopes has their lifetime.
+
+What will this code print?
+
+```js
+let x = 10
+
+function a() {
+  console.log(x)
+}
+
+function b() {
+  let x = 222
+  a()
+}
+
+b() // ????
+```
+
+It will print `10`, since the closure of the `a function` has only access to the global scope and to it's own scope, the scope of `function b` where we execute the `a function` does not affect the closure att all.
+
+### Closures and shared scopes
+
+Closures can even share scopes, So if we have main function and inside of it 3 other functions, they can modify the varible becasue they will capture the same value.
+So for example:
+
+```js
+function Parent() {
+  let x = 3
+
+  const square = () => {
+    x = x ** 2
+    console.log(x)
+  }
+  const add = () => {
+    x += 1
+    console.log(x)
+  }
+  const half = () => {
+    x /= 2
+    console.log(x)
+  }
+  return {
+    square,
+    add,
+    half,
+  }
+}
+
+const {add, half, square} = Parent()
+
+add() // 4
+add() // 5
+add() // 6
+half() // 3
+square() // 9
+```
+
+We define 3 child functions inside the parent function, The `closure` here will be created for our 3 inner functions.
+Every time we call one of the function, they will modify the same value.
+
+- All 3 child function share the same parent scope and useses the same variable, we close over the same value in parent scope.
+
+### Returning the value from the function thate we capture will
+
+Returning the value from the function thate we capture will not give us the modified value, since as soon we define out function it will capture the initilized variable in the top and remember that value.
+If we want to get back the modified value that we captured inside our function, we can simply create a getter function that just return taht value.
+And know we have that modified value back.
+
+So using the same example from above:
+
+```js
+function Parent() {
+  let x = 3
+
+  const square = () => {
+    x = x ** 2
+    console.log(x)
+  }
+  const add = () => {
+    x += 1
+    console.log(x)
+  }
+  const half = () => {
+    x /= 2
+    console.log(x)
+  }
+
+  return {
+    square,
+    add,
+    half,
+    x,
+    getX() {
+      return x
+    },
+  }
+}
+
+const {add, half, square, getX, x} = Parent()
+
+add()
+add()
+add()
+half()
+square()
+getX() // 9
+console.log(x) // 3 it will rember just the first intilized value as soon we create a brand new execution context here
+```
+
+By returning a getter function with the modfied value we keep the remeberd value inside the function.
+
 #### How I like to vizualize lexical scoping
+
+<!-- ![adasd](closure-mental.png) -->
 
 I like to vizulize the lexical scoping like an builing with a lot of floors, we start at the bottom floor.
 We looking for our cat Bella that has run away, we knock on every door to find her.
@@ -299,8 +421,10 @@ If we whould defined the count variable inside the `counter` function we would n
 })()
 ```
 
+### Higher order functions
+
 **With higher order functions** we are using closures as well, for example when we
-try to transform one list into a new list using `Array.prototype.find`. For example
+try to find a specifik element in alist using `Array.prototype.find`. For example
 this code block uses closure to find the correct name in the list.
 
 ```js
@@ -310,6 +434,8 @@ const upperNames = names.find((name) => name === nameToFind))
 ```
 
 We using closures here becasue `nameToFind` is defiend outside of the function, its a `closure`
+
+### Callbacks
 
 **In callbacks** it it common to use closures as well, by capturing the variable from the lexical scope, inside the `fn` function.
 
@@ -328,6 +454,8 @@ console.log(fn(toUpper)) // MARCELL
 console.log(fn(firstLetter)) // M
 console.log(fn(lastLetter)) // l
 ```
+
+### Functional progaming
 
 **Curried function**, in functional programing closure is a very important concept since without closure we could not achive curried functions.
 
@@ -351,6 +479,54 @@ So basicclu can preload the `helloInDifferentLanguages` with the first argument 
 And the final step we just add the given name to print out hello in a different language.
 
 Why this concept is so useful is becasue we made our function dynamic, we can have different language and also pass in what name we want to print, all of this thanks to `closures`.
+
+### React hooks
+
+**React hooks** using closures to remember the current state.
+For example `useState` under hood is something we can simply implement using closures.
+This example was inspired by: [`Shaw Wang`](https://egghead.io/q/resources-by-shawn-wang).
+
+```js
+const MyReact = (() => {
+  let value
+  return {
+    render(Component) {
+      const comp = Component()
+      comp.render()
+      return comp
+    },
+
+    useState(initialValue) {
+      value = value || initialValue
+      const setState = (newValue) => {
+        value = newValue
+      }
+      return [value, setState]
+    },
+  }
+})()
+
+function Counter() {
+  const [count, setCount] = MyReact.useState(0)
+  return {
+    click: () => setCount(count + 1),
+    render: () => console.log("render:", {count}),
+  }
+}
+let App
+App = MyReact.render(Counter) // render: { count: 0 }
+App.click()
+App = MyReact.render(Counter) // render: { count: 1 }
+App.click()
+App = MyReact.render(Counter) // render: { count: 2 }
+App.click()
+App = MyReact.render(Counter) // render: { count: 3 }
+```
+
+Notice how we need to reassign the `App` variable for each click, to see the counter to increment. This representing a render in the browser to update the state.
+We basiclly using the [`Module pattern`](https://addyosmani.com/resources/essentialjsdesignpatterns/book/#modulepatternjavascript) here to achive a incapulated mini verserion of `React`.
+The value variable in the top holds our state in the module scope. We can then caputre the value inside the `useState` metod and updated it.
+**Note** this is just a very basic and simple example and React is more complex and prisice under the hood, this is just to demostrate how `React` using closures to implement the usage of `React hooks`.
 
 ### conclusion
 

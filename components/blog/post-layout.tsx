@@ -1,6 +1,12 @@
 import styled from "@emotion/styled"
 import {pxToRem} from "@styles/css-helpers"
-import {colors, fonts, sizes} from "@styles/styled-record"
+import {
+  borderRadius,
+  colors,
+  elevations,
+  fonts,
+  sizes,
+} from "@styles/styled-record"
 import React from "react"
 
 const Layout = styled.article`
@@ -17,17 +23,10 @@ const Layout = styled.article`
     font-family: ${fonts.operaorMono};
     font-weight: 500;
     position: relative;
-    &:after {
-      content: "";
-      position: absolute;
-      top: 1px;
-      left: 0;
-      width: 10px;
-      height: 10px;
-      z-index: -1;
-      opacity: 0.2;
-      background-color: ${colors.colorTextPrimary};
-    }
+    background-color: ${colors.colorGray300};
+    padding: ${pxToRem(3)};
+    border-radius: ${borderRadius.borderRadiusM};
+    box-shadow: ${elevations.shadowMd};
   }
   ul {
     list-style: square;
@@ -54,11 +53,31 @@ const Layout = styled.article`
       transform: rotate(-1deg);
     }
   }
+  blockquote {
+    position: relative;
+    padding: 0.2rem 0.4rem;
+    background-color: ${colors.colorGray200};
+    margin-bottom: 1.5rem;
+    &:after {
+      position: absolute;
+      content: "”";
+      color: ${colors.colorTextPrimary};
+      font-size: 7rem;
+      line-height: 0;
+      bottom: -23px;
+      right: 30px;
+      opacity: 0.55;
+    }
+    p {
+      margin-left: 0.5rem;
+      font-style: italic;
+      opacity: 0.8;
+      font-family: ${fonts.operaorMono};
+    }
+  }
 `
 
-interface Props {}
-
-const PostLayout: React.FC<Props> = ({children}) => {
+const PostLayout: React.FC = ({children}) => {
   return <Layout>{children}</Layout>
 }
 export default PostLayout
