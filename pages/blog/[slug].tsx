@@ -19,7 +19,7 @@ import {MDXRemote, MDXRemoteSerializeResult} from "next-mdx-remote"
 import {ParsedUrlQuery} from "querystring"
 import {FC, Fragment} from "react"
 type PostItem = Omit<PostItemType, "slug">
-// import Image from "next/image"
+import Image from "next/image"
 interface FrontMatter extends PostItem {
   date: string
   keywords: string[]
@@ -185,5 +185,11 @@ const components = {
   // CodeBlock: dynamic(() => import("../../components/mdx/code-block")),
   code: CodeBlock,
   Counter,
+  img: (props: any) => {
+    return <Image alt={props.alt || "Image"} {...props} />
+  },
+  Image: (props: any) => {
+    return <Image alt={props.alt || "Image"} {...props} />
+  },
   // img: (props: any) => <Image {...props} layout="responsive" loading="lazy" />,
 }
