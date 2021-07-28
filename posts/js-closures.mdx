@@ -10,15 +10,13 @@ slug: js-closures
 
 What are closures actually and why is this a so common term in programming.
 If you have been applied for a JavaScript interview you probably got the question from the interviewer that you should explain what a closure is and how it works.
-
 A closure is a function that can access stuff not inside of it.
-Every function we create in `JavaScript` has a closure.
-As soon we enable/call our function thir closures enable them to access the values from thier scopes.
-So for example
+Every function we create in JavaScript has a closure.
+As soon we enable/call our function the closures enable them to access the values from their scopes. So for example
 
 > Closure is something that access the value the that is not defined inside of it.
 
-Ore like [`Kyle Simpsons`](https://github.com/getify/You-Dont-Know-JS) defines clsures:
+Like [`Kyle Simpsons`](https://github.com/getify/You-Dont-Know-JS) defines clsures:
 
 > Closure is when a function is able to remember and access its lexical scope even when that function is executing outside its lexical scope.
 
@@ -33,9 +31,8 @@ name = "Marcell"
 whatUp() // Marcell
 ```
 
-In this example, we will receive first hello Bob and then when we assign the name variable and call the function again we will get hello Marcell.
-Another good example of how closures works is to implement a simple counter. Here we expect that the `i` varaible should be incremented by one for every function call.
-And it does!
+In this example, we will receive first hello Bob and then when we assign the name variable and call the function again we will get hello Marcell. Another good example of how closures work is to implement a simple counter.
+Here we expect that the `i` variable should be incremented by one for every function call\. And it does!
 
 ```js
 let i = 0
@@ -49,7 +46,7 @@ increment() //3
 increment() //4
 ```
 
-The increment function works as a closure and it is like it has its own memory and can remember what the previous I variable was.
+The increment function works as a closure and it is like it has its memory and can remember what the previous I variable was.
 So every time we would call the increment function we would receive an updated value of i-variable\.
 
 **Something good to know is that:**
@@ -72,7 +69,7 @@ increment() //1
 ```
 
 We would not get the same result as the previous example, that the I variable has been updated.
-Every time we call the function we create a brand new function within the funcion scope.
+Every time we call the function we create a brand new function within the function scope.
 
 But we don’t want to create global variables in our programs right?
 What is so great with function in javascript is that all functions are first-class functions that mean that functions can be passed around as any value, we can define multiple functions inside another function.
@@ -102,8 +99,8 @@ saySomething()
 The scopes are totaly different and have nothing common at all except that they use the same function.
 The variable `name` inside the function will be recreated for every `execution context`.
 
-Every function scope has its own lifetime, the get created and as soon they are doen they go away.
-The only scope that never goes away is the `global` scope that is alive through the whole program.
+Every function scope has its own lifetime, thats get created and as soon they are done the functions goes away.
+The only scope that never goes away is the `global` scope, that is alive through the whole program.
 
 ## Scope and lexical scope
 
@@ -115,7 +112,7 @@ When we define the variable inside the function we can’t access it outside the
 We have simply created a private variable defined inside the function block.
 We only have access to the variable inside the function scope.
 
-Since the variables we create are just bounded to the scope where they got created, we can define a new variable with the same name and value inside another function because they are not defined within the same function scope.
+Since the variables we created are just bounded to the scope where they got created, we can define a new variable with the same name and value inside another function because they are not defined within the same function scope.
 
 We can do nested scopes and here is when the true power kicks in by using closures and understanding how the scope works.
 
@@ -133,11 +130,12 @@ parent() // Hello there
 
 - You see here how the inner function `(child)` have access to the parent scope.
 - We can nest scopes, and the inner function has access to the variables that are defined in the parent scope.
-- Parent function does not have access to the child scope.
+- Parent function does not have access to the child scope\.
 
-What whould happend in this case?
-Do we expect the same result, do we get the same kind of error since we defining 2 variables within the same name?
-Let's see what result we get.'
+  So another example.
+  What whould happend in this case? Do we expect the same result, do we get any
+  kind of error message since we defining 2 variables within the same name?
+  Let's see what result we get\.
 
 ```js
 function parent() {
@@ -153,15 +151,14 @@ parent() // From the child
 ```
 
 We print the value of the variable that gets defined inside the child function, since it was created from its function scope it will use that variable even if we have the same variable defined in the parent scope.
-Since they are defined in different scopes we will not get any error, in this case, we just shadowing the `parentVariable` defined in the parent function scope.
+Since they are defined in different scopes we will not get any error, in this case, we just shadowing the parent Variable defined in the parent function scope.
 
-But how can the child functions have access to the variable defined in the parent scope? As well as how does JavaScript knows what variable is corsponds to what scope?
-This is when we come to understanding the `lexical` scope in JavaScript.
-JavaScript does also have a concept called `lexical scope`, that inside a inner scope we still have acceess to the outer scope, so in the example the parent scope.
+But how can the child functions have access to the variable defined in the parent scope?
+As well as how does JavaScript know what variable is corresponds to what scope?
+This is when we come to understanding the lexical scope in JavaScript.
+JavaScript does also have a concept called a lexical scope, that inside an inner scope we still have access to the outer scope, so in the example the parent scope.
 
-We can brake it down in to a metafor how the compiler compile ot JavaScript code.
-
-Take the first example in this case.
+Take the previous example in this case.
 
 ```js
 function parent() {
@@ -175,14 +172,14 @@ function parent() {
 parent() // Hello there
 ```
 
-1. First we declare the `parent` function, and the compiler says: _hey I can see that you declared a varaible inside the parent function named `parentVariable`_
-2. _Hey but I can also see that you using a variable without any declaration, I know `lexical scoping` so I will just use the variable that is defined in scope above `(the parent scoper)`_
+1. Firstm we declare the `parent` function, and the compiler says: _hey I can see that you declared a variable inside the parent function named parent Variable_
+2. _Hey but I can also see that you using a variable without any declaration, I know `lexical scoping` so I will just use the variable that is defined in the scope above `(the parent scoper)`_
 
 ### Don't mix closures and scopes
 
 We should not mix these two concepts because they are not the same.
-Closures spans multiple scopes and will not go away even after the function is done executing.
-A difference between scopes and closures are that a closure will still live after the function execution shile scopes has their lifetime.
+Closures span multiple scopes and will not go away even after the function is done executing.
+A difference between scopes and closures is that closure will still live after the function execution while scopes have their lifetime.
 
 What will this code print?
 
@@ -201,11 +198,14 @@ function b() {
 b() // ????
 ```
 
-It will print `10`, since the closure of the `a function` has only access to the global scope and to it's own scope, the scope of `function b` where we execute the `a function` does not affect the closure att all.
+It will print `10`, since the closure of the `a function` has only access to the global scope and to its own scope, the scope of `function b` where we execute the `a function` does not affect the closure at all.
+
+- Functions has their own scope
+- So if the function is not defined inside of the `b function` it will never know what the `x` value is, inside the `b function`. In this case.
 
 ### Closures and shared scopes
 
-Closures can even share scopes, So if we have main function and inside of it 3 other functions, they can modify the varible becasue they will capture the same value.
+Closures can even share scopes, So if we have a main function and inside of it 3 other functions, they can modify the variable because they will capture the same value.
 So for example:
 
 ```js
@@ -241,14 +241,14 @@ square() // 9
 ```
 
 We define 3 child functions inside the parent function, The `closure` here will be created for our 3 inner functions.
-Every time we call one of the function, they will modify the same value.
+Every time we call one of the functions, they will modify the same value.
 
-- All 3 child function share the same parent scope and useses the same variable, we close over the same value in parent scope.
+- All 3 child functions share the same parent scope and uses the same variable, we close over the same value in the parent scope.
 
-### Returning the value from the function thate we capture will
+### Using the captured variable
 
-Returning the value from the function thate we capture will not give us the modified value, since as soon we define out function it will capture the initilized variable in the top and remember that value.
-If we want to get back the modified value that we captured inside our function, we can simply create a getter function that just return taht value.
+Returning the value from the function that we capture will not give us the modified value, since as soon we define our function it will capture the initialized variable, that gets defined in the top and remember that value.
+If we want to get back the modified value that we captured inside our function, we can simply create a getter function that just returns that value.
 And know we have that modified value back.
 
 So using the same example from above:
@@ -289,7 +289,7 @@ add()
 half()
 square()
 getX() // 9
-console.log(x) // 3 it will rember just the first intilized value as soon we create a brand new execution context here
+console.log(x) // 3 it will hold on to the initialized value, from the function call
 ```
 
 By returning a getter function with the modfied value we keep the remeberd value inside the function.
@@ -298,9 +298,9 @@ By returning a getter function with the modfied value we keep the remeberd value
 
 <!-- ![adasd](closure-mental.png) -->
 
-I like to vizulize the lexical scoping like an builing with a lot of floors, we start at the bottom floor.
+I like to visualize the lexical scoping like a building with a lot of floors, we start at the bottom floor.
 We looking for our cat Bella that has run away, we knock on every door to find her.
-Now one has seen Bella but they think they saw here higher up in the bulding, so we go up one floor and look for her there, and we repeat this until we find her.
+No one has seen Bella but they think they saw her higher up in the building, so we go up one floor and look for her there, and we repeat this until we find her.
 
 So same concept, if we have deeply nested blocks we start from the most deeply nested function and walk our way up to find the variable we are looking for.
 
@@ -325,8 +325,8 @@ function grandGrandFather() {
 grandGrandFather()
 ```
 
-How is this really related to `closures` Marcell?
-We are very close to understand the power of closures, we know how lexical scoping works and that the inner function will have access to the variables/objects of the parent scope.
+How is this related to `closures` Marcell?
+We know how lexical scoping works and that the inner function will have access to the variables/objects of the parent scope.
 
 ```js
 const counter = () => {
@@ -340,7 +340,7 @@ const counter = () => {
 counter()
 ```
 
-We are invkoing the `run` function inside the `counter function` to log out the result, but let's change it and try to return the inner function instead so we can use it outside the function scope and it's lexical scope, `aka the power of closures`.
+We are invoking the `run` function inside the `counter function` to log out the result, but let's change it and try to return the inner function instead so we can use it outside the function scope and its lexical scope, `aka the power of closures`.
 
 ```js
 const counter = () => {
@@ -357,29 +357,26 @@ runCounter() //2
 runCounter() //3
 ```
 
-Now we have more control and can run the inner function the uses lexical scopeing even outside the the function scope, really cool ond poweful.
-So simply said the inder function `closes` over the variable `i` from its lexical scope, _`it captures,rememebr the variable`_.
-The inner function that get's returned is our `closure`, it remebers what value the `i` is even outside the function scope.
+Now we have more control and can run the inner function the uses lexical scoping even outside the function scope, really cool and powerful.
+So simply said the inner function `closes` over the variable `i` from its lexical scope, _`it captures, remember the variable`_.
+The inner function that gets returned is our `closure`, it remembers what value the `i` is even outside the function scope.
 
 > a closure gives you access to an outer function’s scope from an inner function. In JavaScript, closures are created every time a function is created, at function creation time. // MDN web docs
 
-### So what is a closure?
+### So asking again, what is a closure?
 
 A closure is a function that remembers from the area it was defined, even if we use it later and execute it.
 So if you see any variable that is not defined somewhere nearby ore in the function then it is properly a `closure`, it has `captured`,`closed` over that variable.
+It is not just a regular function, it is a function combined with its outer state or lexical environment.
 
-### Examples of closures
+### Some examples/use cases of using closures
 
-<!-- Working with React hooks you are using `closures`, for example when we build a simple counter with react hooks.
-The way how we make our increment counter is that we keep the previos `count` value in closure.
-Take a look at this code example, and try to increment and decrement the counter. -->
-
-A simple counter example from the example above using `closures`.
-Working with the dom we simply can create a visual representing of a counter and interact with it using `closures`.
-We also added a functionality to disable the button when count is equal to 0.
-Notice how we capture the count value inside the `counter` function.
+A simple counter-example from the example above using closures.
+Working with the `DOM` we simply can create a visual representing of a counter and interact with it using closures.
+We also added a functionality to disable the button when the count is equal to 0.
+Notice how we capture the count value inside the counter function.
 We keep track of the count variable and remember what its previous value was.
-If we whould defined the count variable inside the `counter` function we would not achive the same result since we would get a brand new `count` value for every function call.
+If we would define the count variable inside the counter function we would not achieve the same result since we would get a brand new `count` value for every function call.
 
 <Counter />
 
@@ -399,13 +396,13 @@ If we whould defined the count variable inside the `counter` function we would n
   document.getElementById("count").innerHTML = `<span>${count}</span>`
 
   check()
-  document.getElementById("increment").addEventListener("click", () => {
+  document.getElementById("increment-button").addEventListener("click", () => {
     counter().incrementCount()
     document.getElementById("count").innerHTML = `<span>${count}</span>`
     check()
   })
 
-  document.getElementById("decrement").addEventListener("click", () => {
+  document.getElementById("decrement-button").addEventListener("click", () => {
     counter().decrementCount()
     document.getElementById("count").innerHTML = `<span>${count}</span>`
     check()
@@ -413,9 +410,11 @@ If we whould defined the count variable inside the `counter` function we would n
 
   function check() {
     if (count === 0) {
-      document.getElementById("decrement").removeAttribute("disabled")
+      document.getElementById("decrement-button").removeAttribute("disabled")
     } else {
-      document.getElementById("decrement").setAttribute("disabled", "true")
+      document
+        .getElementById("decrement-button")
+        .setAttribute("disabled", "true")
     }
   }
 })()
@@ -423,9 +422,9 @@ If we whould defined the count variable inside the `counter` function we would n
 
 ### Higher order functions
 
-**With higher order functions** we are using closures as well, for example when we
-try to find a specifik element in alist using `Array.prototype.find`. For example
-this code block uses closure to find the correct name in the list.
+**With higher-order functions** we are using closures as well, for example when we
+try to find a specific element in alist using `Array.prototype.find`. For example,
+this code block uses a closure to find the correct name in the list.
 
 ```js
 const names = ["bob", "frank", "tina", "logan"]
@@ -433,11 +432,11 @@ const nameToFind = "frank"
 const upperNames = names.find((name) => name === nameToFind))
 ```
 
-We using closures here becasue `nameToFind` is defiend outside of the function, its a `closure`
+We using closures here becasue `nameToFind` is defiend outside of the function.
 
 ### Callbacks
 
-**In callbacks** it it common to use closures as well, by capturing the variable from the lexical scope, inside the `fn` function.
+**In callbacks** it is common to use closures as well, by capturing the variable from the lexical scope, inside the `fn` function.
 
 ```js
 const toUpper = (s) => s.toUpperCase()
@@ -457,7 +456,7 @@ console.log(fn(lastLetter)) // l
 
 ### Functional progaming
 
-**Curried function**, in functional programing closure is a very important concept since without closure we could not achive curried functions.
+**Curried function**, in functional programming closure, is a very important concept since without closure we could not achieve curried functions.
 
 ```js
 const name = "Marcell"
@@ -468,22 +467,22 @@ const helloInSpanish = helloInDifferentLanguages("Hola")
 const helloInFrench = helloInDifferentLanguages("Bonjour")
 const helloInPortuguese = helloInDifferentLanguages("Olá")
 
-const helloMarcellInEnglish = helloInEng(name)
-const helloMarcellInSpanish = helloInSpanish(name)
-const helloMarcellInFrench = helloInFrench(name)
-const helloMarcellInPortuguese = helloInPortuguese(name)
+const helloMarcellInEnglish = helloInEng(name) // Hi there Marcell
+const helloMarcellInSpanish = helloInSpanish(name) // Hola Marcell
+const helloMarcellInFrench = helloInFrench(name) // Bonjour Marcell
+const helloMarcellInPortuguese = helloInPortuguese(name) // Olá Marcell
 ```
 
-The `helloInDifferentLanguages` is our curried function and it returns another function that return later on the final result.
-So basicclu can preload the `helloInDifferentLanguages` with the first argument ny passing on how we say hello in a different language.
+The `helloInDifferentLanguages` is our curried function and it returns another function that returns later on the final result.
+So basically can preload the `helloInDifferentLanguages` with the first argument by passing on how we say hello in a different language.
 And the final step we just add the given name to print out hello in a different language.
 
-Why this concept is so useful is becasue we made our function dynamic, we can have different language and also pass in what name we want to print, all of this thanks to `closures`.
+Why this concept is so useful is because we made our function dynamic, we can have a different language and also pass in what name we want to print, all of this thanks to `closures`.
 
 ### React hooks
 
 **React hooks** using closures to remember the current state.
-For example `useState` under hood is something we can simply implement using closures.
+For example, `useState` under the hood is something we can simply implement using closures.
 This example was inspired by: [`Shaw Wang`](https://egghead.io/q/resources-by-shawn-wang).
 
 ```js
@@ -524,21 +523,27 @@ App = MyReact.render(Counter) // render: { count: 3 }
 ```
 
 Notice how we need to reassign the `App` variable for each click, to see the counter to increment. This representing a render in the browser to update the state.
-We basiclly using the [`Module pattern`](https://addyosmani.com/resources/essentialjsdesignpatterns/book/#modulepatternjavascript) here to achive a incapulated mini verserion of `React`.
-The value variable in the top holds our state in the module scope. We can then caputre the value inside the `useState` metod and updated it.
-**Note** this is just a very basic and simple example and React is more complex and prisice under the hood, this is just to demostrate how `React` using closures to implement the usage of `React hooks`.
+We use the [`Module pattern`](https://addyosmani.com/resources/essentialjsdesignpatterns/book/#modulepatternjavascript) here to achieve an encapsulated mini version of `React`.
+The value variable at the top holds our state in the module scope. We can then capture the value inside the `useState` method and updated it.
+**Note** this is just a very basic and simple example and React is more complex and precise than our simple example, this is just to demonstrate how `React` using closures to implement the usage of `React hooks`.
+And to understand closures.
+
+### Closures and Memory
+
+Just short about how closures get stored in memory. Capmapred how to function execution gets stored in the short-term memory, the `call stack`.
+Javascript closures get stored on the Heap memory, so we can access them later in our program. This is why we will have access to them later in our program.
+The closure will be freed up later by the garbage collector.
 
 ### conclusion
 
-- By having lexixal scope we can access variables from the outer scope.
-- It still the scope that decides how we will access the variable.
-- `Closure` is a function the close over a value, capturing the value, it remebers the variableform where it was defined.
-- We have a closure when a functions reads and writes a variable that is decalred outside of the function.
+- By having lexical scope we can access variables from the outer scope.
+- It is still the scope that decides how we will access the variable.
+- `Closure` is a function the closes over a value, capturing the value, it remembers the variable form where it was defined.
+- We have a closure when a function reads and writes a variable that is declared outside of the function.
+- `Closures` get stored on the Heap memory and not on the call stack
 
-  Something to know about closures is that we also need to be careful with them,
-  there is a reason why in low level languages like `C` that you don't have
-  closures. `Rust` have closures but to use them you need to write a specifik
-  syntax to accees variables outside of the function. Closures could be stored
-  for a longer time in the memory even after the function call is done. That is
-  why it is important to not keep any global variables, and define yout closure
-  inside a function. Take the adventage of lexical scoping in `JavScript`.
+Something to know about closures is that we also need to be careful with them,
+there is a reason why in low-level languages like `C` that you don't have closures.
+`Rust` has closures but to use them you need to write a specific syntax to access variables outside of the function.
+Closures could be stored for a longer time in the memory even after the function call is done.
+That is why it is important to not keep any global variables, and define our closure inside a function.
