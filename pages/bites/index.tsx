@@ -1,5 +1,5 @@
-import Seo from "@components/common/seo"
 import Title from "@components/common/title"
+import Seo from "@components/seo/seo"
 import {NextPage} from "next"
 import {Fragment} from "react"
 
