@@ -8,8 +8,8 @@ import CodeBlock from "@components/mdx/code-block"
 import Counter from "@components/mdx/examples/counter"
 import Seo from "@components/seo/seo"
 import styled from "@emotion/styled"
-import {pxToRem} from "@styles/css-helpers"
-import {colors} from "@styles/styled-record"
+import {buttonResetStyles, pxToRem} from "@styles/css-helpers"
+import {borderRadius, colors, elevations} from "@styles/styled-record"
 import {formatDate} from "@utils/helpers"
 import {getAllPosts, getPostBySlug} from "lib/api"
 import {serializeMdx} from "lib/markdown-to-html"
@@ -17,9 +17,14 @@ import {GetStaticPaths, GetStaticProps} from "next"
 import {useRouter} from "next/router"
 import {MDXRemote, MDXRemoteSerializeResult} from "next-mdx-remote"
 import {ParsedUrlQuery} from "querystring"
-import {FC, Fragment} from "react"
+import {FC, Fragment, useEffect, useState} from "react"
 type PostItem = Omit<PostItemType, "slug">
+import DownArrow from "@components/icons/down-arrow"
+import UpArrow from "@components/icons/up-arrow"
+import {css} from "@emotion/react"
+import {motion} from "framer-motion"
 import Image from "next/image"
+// import {useInView} from "react-intersection-observer"
 interface FrontMatter extends PostItem {
   date: string
   keywords: string[]
@@ -39,6 +44,9 @@ interface Props {
 }
 
 const PostPage: FC<Props> = ({postData, postSlugs}) => {
+  // const {ref, inView, entry} = useInView({
+  //   threshold: 0,
+  // })
   const router = useRouter()
   if (router.isFallback) {
     // TODO: Fix
@@ -85,11 +93,80 @@ const PostPage: FC<Props> = ({postData, postSlugs}) => {
           nextPostSlug={nextPostSlug}
           postSlugs={postSlugs}
         />
+
+        <ScrollToButton icon="up-arrow" />
       </PostWrapper>
     </Fragment>
   )
 }
 export default PostPage
+
+type IconType = "up-arrow" | "down-arrow"
+interface ScrollToButtonProps {
+  icon: IconType
+}
+const iconHandler = (type: IconType) => {
+  switch (type) {
+    case "up-arrow":
+      return <UpArrow />
+    case "down-arrow":
+      return <DownArrow />
+
+    default:
+      throw new Error(`${type} icon does not exist`)
+  }
+}
+const ScrollToButton = ({icon}: ScrollToButtonProps) => {
+  const [showScroll, setShowScroll] = useState(false)
+
+  const scrollToHandler = () => {
+    window.scrollTo({top: 0, behavior: "smooth"})
+  }
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.pageYOffset > 700) {
+        setShowScroll(true)
+      } else {
+        setShowScroll(false)
+      }
+    }
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [showScroll])
+
+  return (
+    <motion.button
+      initial={{opacity: 0}}
+      animate={{opacity: showScroll ? 1 : 0}}
+      exit={{opacity: 0}}
+      disabled={!showScroll}
+      transition={{opacity: {duration: 0.2}}}
+      whileHover={{
+        backgroundColor: colors.colorGray300,
+        boxShadow: elevations.shadowLg,
+        color: colors.colorHighlight,
+      }}
+      css={css`
+        ${buttonResetStyles};
+        position: fixed;
+        right: 2rem;
+        bottom: 2rem;
+        border: 2px solid ${colors.colorTextPrimary};
+        padding: 0.5rem;
+        border-radius: ${borderRadius.borderRadiusM};
+        box-shadow: ${elevations.shadowMd};
+        background-color: ${colors.colorBgBackground};
+        &:disabled {
+          opacity: 0.5;
+        }
+      `}
+      onClick={() => scrollToHandler()}
+    >
+      {iconHandler(icon)}
+    </motion.button>
+  )
+}
 
 interface Result {
   postData: MDXRemoteSerializeResult
@@ -181,6 +258,7 @@ const EditPostLink = styled.a`
   }
 `
 
+// IntersectionObserverEntry
 const components = {
   // CodeBlock: dynamic(() => import("../../components/mdx/code-block")),
   code: CodeBlock,
@@ -191,5 +269,6 @@ const components = {
   Image: (props: any) => {
     return <Image alt={props.alt || "Image"} {...props} />
   },
+
   // img: (props: any) => <Image {...props} layout="responsive" loading="lazy" />,
 }

@@ -311,8 +311,8 @@ const GLOBAL = "global" // global scope
 function grandGrandFather() {
   let age = 92
   function grandFather() {
-    function parent(params) {
-      function child(params) {
+    function parent() {
+      function child() {
         // Go up to the grandGrandFather scope where it is declared
         console.log(`My grandGrandFather is ${age} years old`)
         console.log(`I also have access to the Global scope  ${GLOBAL} `) // go up to the global scope
