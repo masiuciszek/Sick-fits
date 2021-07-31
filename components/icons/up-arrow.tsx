@@ -9,7 +9,7 @@ const UpArrow = ({width = 30, height = 30}: Props) => (
     xmlns="http://www.w3.org/2000/svg"
     width={width}
     height={height}
-    fill={colors.colorTextText}
+    fill="#000000"
     viewBox="0 0 256 256"
   >
     <rect width="256" height="256" fill="none"></rect>
