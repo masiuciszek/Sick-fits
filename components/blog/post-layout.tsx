@@ -100,7 +100,6 @@ const Layout = styled.article`
       font-family: ${fonts.operaorMono};
     }
   }
-
   ${tableStyles};
 `
 
