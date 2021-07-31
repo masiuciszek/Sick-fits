@@ -19,7 +19,7 @@ const UpArrow = ({width = 30, height = 30}: Props) => (
       x2="128"
       y2="40"
       fill="none"
-      stroke={colors.colorTextText}
+      stroke={colors.colorBgBackground}
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth="16"
@@ -27,7 +27,7 @@ const UpArrow = ({width = 30, height = 30}: Props) => (
     <polyline
       points="56 112 128 40 200 112"
       fill="none"
-      stroke={colors.colorTextText}
+      stroke={colors.colorBgBackground}
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth="16"

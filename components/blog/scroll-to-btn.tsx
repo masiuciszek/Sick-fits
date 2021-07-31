@@ -23,7 +23,7 @@ const iconHandler = (type: IconType) => {
 }
 const ScrollToButton = ({icon}: ScrollToButtonProps) => {
   const [showScroll, scrollToHandler] = useShowScroll({limit: 800})
-  console.log({showScroll})
+
   return (
     <motion.button
       initial={{opacity: 0}}
@@ -32,9 +32,7 @@ const ScrollToButton = ({icon}: ScrollToButtonProps) => {
       disabled={!showScroll}
       transition={{opacity: {duration: 0.2}}}
       whileHover={{
-        backgroundColor: colors.colorGray300,
-        boxShadow: elevations.shadowLg,
-        color: colors.colorHighlight,
+        scale: 1.05,
       }}
       css={css`
         ${buttonResetStyles};
@@ -45,7 +43,7 @@ const ScrollToButton = ({icon}: ScrollToButtonProps) => {
         padding: 0.5rem;
         border-radius: ${borderRadius.borderRadiusM};
         box-shadow: ${elevations.shadowMd};
-        background-color: ${colors.colorBgBackground};
+        background-color: ${colors.colorTextText};
         &:disabled {
           opacity: 0.5;
         }
