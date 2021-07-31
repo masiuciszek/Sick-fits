@@ -1,3 +1,4 @@
+import {css} from "@emotion/react"
 import styled from "@emotion/styled"
 import {pxToRem} from "@styles/css-helpers"
 import {
@@ -8,6 +9,30 @@ import {
   sizes,
 } from "@styles/styled-record"
 import React from "react"
+
+const tableStyles = css`
+  table {
+    box-shadow: ${elevations.shadowMd};
+    margin-bottom: 1.5rem;
+    thead {
+      background-color: ${colors.colorTextText};
+      color: ${colors.colorBgBackground};
+      th {
+        font-size: 1.2rem;
+        padding: 0.2rem;
+      }
+    }
+    tbody {
+      tr {
+        background-color: ${colors.colorGray100};
+        td {
+          padding: 0.5rem 0.25rem;
+          box-shadow: ${elevations.shadowInner};
+        }
+      }
+    }
+  }
+`
 
 const Layout = styled.article`
   h1 {
@@ -75,9 +100,9 @@ const Layout = styled.article`
       font-family: ${fonts.operaorMono};
     }
   }
+
+  ${tableStyles};
 `
 
-const PostLayout: React.FC = ({children}) => {
-  return <Layout>{children}</Layout>
-}
+const PostLayout: React.FC = ({children}) => <Layout>{children}</Layout>
 export default PostLayout
