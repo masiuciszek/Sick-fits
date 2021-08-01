@@ -12,12 +12,16 @@ import {
   fonts,
   sizes,
 } from "@styles/styled-record"
+<<<<<<< HEAD
 import {
   motion,
   useElementScroll,
   useTransform,
   useViewportScroll,
 } from "framer-motion"
+=======
+import {motion, useTransform, useViewportScroll} from "framer-motion"
+>>>>>>> scroll
 import {FC, useState} from "react"
 
 const tableStyles = css`
