@@ -1,7 +1,6 @@
 import DownArrow from "@components/icons/down-arrow"
 import UpArrow from "@components/icons/up-arrow"
 import {css} from "@emotion/react"
-import useShowScroll from "@hooks/show-scroll"
 import {buttonResetStyles} from "@styles/css-helpers"
 import {borderRadius, colors, elevations} from "@styles/styled-record"
 import {motion} from "framer-motion"
@@ -9,6 +8,7 @@ import {motion} from "framer-motion"
 type IconType = "up-arrow" | "down-arrow"
 interface ScrollToButtonProps {
   icon: IconType
+  showScroll: boolean
 }
 const iconHandler = (type: IconType) => {
   switch (type) {
@@ -21,8 +21,10 @@ const iconHandler = (type: IconType) => {
       throw new Error(`${type} icon does not exist`)
   }
 }
-const ScrollToButton = ({icon}: ScrollToButtonProps) => {
-  const [showScroll, scrollToHandler] = useShowScroll({limit: 800})
+const ScrollToButton = ({icon, showScroll}: ScrollToButtonProps) => {
+  const scrollToHandler = () => {
+    window.scrollTo({top: 0, behavior: "smooth"})
+  }
 
   return (
     <motion.button

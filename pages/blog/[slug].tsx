@@ -19,7 +19,6 @@ import {MDXRemote, MDXRemoteSerializeResult} from "next-mdx-remote"
 import {ParsedUrlQuery} from "querystring"
 import {FC, Fragment} from "react"
 type PostItem = Omit<PostItemType, "slug">
-import ScrollToButton from "@components/blog/scroll-to-btn"
 import Image from "next/image"
 // import {useInView} from "react-intersection-observer"
 interface FrontMatter extends PostItem {
@@ -90,8 +89,6 @@ const PostPage: FC<Props> = ({postData, postSlugs}) => {
           nextPostSlug={nextPostSlug}
           postSlugs={postSlugs}
         />
-
-        <ScrollToButton icon="up-arrow" />
       </PostWrapper>
     </Fragment>
   )

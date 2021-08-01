@@ -1,3 +1,4 @@
+import ScrollToButton from "@components/blog/scroll-to-btn"
 import {css} from "@emotion/react"
 import styled from "@emotion/styled"
 import {pxToRem} from "@styles/css-helpers"
@@ -8,7 +9,8 @@ import {
   fonts,
   sizes,
 } from "@styles/styled-record"
-import React from "react"
+import {motion, useElementScroll, useTransform} from "framer-motion"
+import {FC, MutableRefObject, useRef, useState} from "react"
 
 const tableStyles = css`
   table {
@@ -34,7 +36,9 @@ const tableStyles = css`
   }
 `
 
-const Layout = styled.article`
+const Layout = styled.section`
+  overflow: scroll;
+  height: 100vh;
   h1 {
     font-size: ${sizes.h3};
     span {
@@ -103,5 +107,44 @@ const Layout = styled.article`
   ${tableStyles};
 `
 
-const PostLayout: React.FC = ({children}) => <Layout>{children}</Layout>
+const progressStyles = (progress: number) => {
+  const result = progress * 20
+  return css`
+    width: 2vh;
+    background-color: ${colors.colorTextPrimary};
+    height: ${result}rem;
+    position: fixed;
+    top: 70px;
+    left: 20px;
+    font-size: 100px;
+    border-radius: ${borderRadius.borderRadiusM};
+  `
+}
+
+const PostLayout: FC = ({children}) => {
+  const ref: MutableRefObject<HTMLElement | null> = useRef(null)
+  const {scrollYProgress} = useElementScroll(ref)
+  const [progress, setProgress] = useState(0)
+  scrollYProgress.onChange(setProgress)
+
+  const scale = useTransform(
+    scrollYProgress,
+    [0, 0.33, 0.66, 1],
+    [0.5, 0.75, 0.5, 1],
+  )
+
+  return (
+    <Layout ref={ref}>
+      <motion.div style={{scale}} css={progressStyles(progress)} />
+      <motion.aside>
+        {children}
+
+        {progress > 0.15 && (
+          <ScrollToButton icon="up-arrow" showScroll={progress > 0.15} />
+        )}
+        {progress > 0.15 && <h1>apa</h1>}
+      </motion.aside>
+    </Layout>
+  )
+}
 export default PostLayout
