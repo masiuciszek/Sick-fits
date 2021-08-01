@@ -12,12 +12,10 @@ const Main = styled.main`
   margin-bottom: 2rem;
 `
 
-export const Layout: FC = ({children}) => {
-  return (
-    <Fragment>
-      <Header />
-      <Main>{children}</Main>
-      <Footer />
-    </Fragment>
-  )
-}
+export const Layout: FC = ({children}) => (
+  <Fragment>
+    <Header />
+    <Main>{children}</Main>
+    <Footer />
+  </Fragment>
+)

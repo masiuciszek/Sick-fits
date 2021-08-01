@@ -134,7 +134,6 @@ export const getStaticProps: GetStaticProps<Result, Params> = async ({
 
 export const getStaticPaths: GetStaticPaths = () => {
   const posts = getAllPosts({fields: ["slug"]})
-
   return {
     paths: posts.map(({slug}) => ({params: {slug}})),
     fallback: true,

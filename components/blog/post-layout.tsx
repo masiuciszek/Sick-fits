@@ -1,7 +1,10 @@
 import ScrollToButton from "@components/blog/scroll-to-btn"
 import {css} from "@emotion/react"
 import styled from "@emotion/styled"
+// import useMediaQuery from "@hooks/media-query"
+import usePrevious from "@hooks/prev"
 import {pxToRem} from "@styles/css-helpers"
+// import {above} from "@styles/media-query"
 import {
   borderRadius,
   colors,
@@ -9,8 +12,8 @@ import {
   fonts,
   sizes,
 } from "@styles/styled-record"
-import {motion, useElementScroll, useTransform} from "framer-motion"
-import {FC, MutableRefObject, useRef, useState} from "react"
+import {motion, useElementScroll} from "framer-motion"
+import {FC, useRef, useState} from "react"
 
 const tableStyles = css`
   table {
@@ -37,8 +40,9 @@ const tableStyles = css`
 `
 
 const Layout = styled.section`
-  overflow: scroll;
+  overflow: auto;
   height: 100vh;
+  position: relative;
   h1 {
     font-size: ${sizes.h3};
     span {
@@ -107,42 +111,57 @@ const Layout = styled.section`
   ${tableStyles};
 `
 
-const progressStyles = (progress: number) => {
-  const result = progress * 20
-  return css`
-    width: 2vh;
-    background-color: ${colors.colorTextPrimary};
-    height: ${result}rem;
-    position: fixed;
-    top: 70px;
-    left: 20px;
-    font-size: 100px;
-    border-radius: ${borderRadius.borderRadiusM};
-  `
-}
+// const progressStyles = (progress: number) => {
+//   const result = progress * 20
+//   return css`
+//     width: ${result}rem;
+//     background-color: ${colors.colorTextPrimary};
+//     height: 2vh;
+//     position: fixed;
+//     top: 70px;
+//     left: 50px;
+//     font-size: 100px;
+//     z-index: -1;
+//     border-radius: ${borderRadius.borderRadiusM};
+//   `
+// }
 
 const PostLayout: FC = ({children}) => {
-  const ref: MutableRefObject<HTMLElement | null> = useRef(null)
+  const ref = useRef<HTMLElement>(null)
   const {scrollYProgress} = useElementScroll(ref)
   const [progress, setProgress] = useState(0)
-  scrollYProgress.onChange(setProgress)
+  // const aboveTablet = useMediaQuery(above.tablet)
 
-  const scale = useTransform(
-    scrollYProgress,
-    [0, 0.33, 0.66, 1],
-    [0.5, 0.75, 0.5, 1],
-  )
+  scrollYProgress.onChange(setProgress)
+  const previousProgress = usePrevious(progress) as number
+
+  // const scale = useTransform(
+  //   scrollYProgress,
+  //   [0, 0.33, 0.66, 1],
+  //   [0.5, 0.75, 0.5, 1],
+  // )
+
+  const scrollToHandler = (): void => {
+    if (ref.current) {
+      ref.current.scrollTo({top: 0, behavior: "smooth"})
+    }
+  }
 
   return (
     <Layout ref={ref}>
-      <motion.div style={{scale}} css={progressStyles(progress)} />
+      {/* {aboveTablet && (
+        <motion.div style={{scale}} css={progressStyles(progress)} />
+      )} */}
       <motion.aside>
         {children}
 
         {progress > 0.15 && (
-          <ScrollToButton icon="up-arrow" showScroll={progress > 0.15} />
+          <ScrollToButton
+            icon="up-arrow"
+            showScroll={progress > 0.15 && progress < previousProgress}
+            scrollToHandler={scrollToHandler}
+          />
         )}
-        {progress > 0.15 && <h1>apa</h1>}
       </motion.aside>
     </Layout>
   )
