@@ -24,40 +24,6 @@ const iconHandler = (type: IconType) => {
       throw new Error(`${type} icon does not exist`)
   }
 }
-<<<<<<< HEAD
-const ScrollToButton = ({icon}: ScrollToButtonProps) => {
-  const [showScroll, scrollToHandler] = useShowScroll({limit: 800})
-
-  return (
-    <motion.button
-      initial={{opacity: 0}}
-      animate={{opacity: showScroll ? 1 : 0}}
-      exit={{opacity: 0}}
-      disabled={!showScroll}
-      transition={{opacity: {duration: 0.2}}}
-      whileHover={{
-        backgroundColor: colors.colorGray200,
-      }}
-      css={css`
-        ${buttonResetStyles};
-        position: fixed;
-        right: 2rem;
-        bottom: 2rem;
-        border: 2px solid ${colors.colorTextPrimary};
-        padding: 0.5rem;
-        border-radius: ${borderRadius.borderRadiusM};
-        box-shadow: ${elevations.shadowMd};
-        &:disabled {
-          opacity: 0.5;
-        }
-      `}
-      onClick={() => scrollToHandler()}
-    >
-      {iconHandler(icon)}
-    </motion.button>
-  )
-}
-=======
 const ScrollToButton: FC<Props> = ({icon, showScroll, scrollToHandler}) => (
   <motion.button
     initial={{opacity: 0}}
@@ -91,6 +57,5 @@ const ScrollToButton: FC<Props> = ({icon, showScroll, scrollToHandler}) => (
     {iconHandler(icon)}
   </motion.button>
 )
->>>>>>> scroll
 
 export default ScrollToButton
