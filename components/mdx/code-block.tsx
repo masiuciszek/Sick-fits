@@ -13,6 +13,7 @@ const Pre = styled.pre`
   padding: 0.5em;
   overflow: scroll;
   font-family: ${fonts.operaorMono};
+  font-size: 0.7rem; ;
 `
 
 const Line = styled.div`

@@ -15,6 +15,8 @@ import {
 import {motion, useTransform, useViewportScroll} from "framer-motion"
 import {FC, useState} from "react"
 
+const LIMIT_SHOW_SCROLL_UPP_BUTTON = 0.15
+
 const tableStyles = css`
   table {
     box-shadow: ${elevations.shadowMd};
@@ -150,11 +152,13 @@ const PostLayout: FC = ({children}) => {
       )}
       <motion.aside>
         {children}
-
-        {progress > 0.15 && (
+        {progress > LIMIT_SHOW_SCROLL_UPP_BUTTON && (
           <ScrollToButton
             icon="up-arrow"
-            showScroll={progress > 0.15 && progress < previousProgress}
+            showScroll={
+              progress > LIMIT_SHOW_SCROLL_UPP_BUTTON &&
+              progress < previousProgress
+            }
             scrollToHandler={scrollToHandler}
           />
         )}
