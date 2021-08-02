@@ -60,6 +60,42 @@ After that, you can attend the meeting.
 When you are done with the meeting you will have some time to read your blog post.
 This is a visualized way of how the call stack works.
 
-So why is this so relevent to how recursion works
+So why is this so relevent to how recursion works.
+This is how the call stack works when we are talking about invoking function within our program.
+
+Take this for example, we have three functions that are kind of chained together.
+
+```js
+function a() {
+  return "What up " + b()
+}
+
+function b() {
+  return "I am B " + "Hello " + c()
+}
+
+function c() {
+  return "I am C"
+}
+```
+
+The first function is depended on the `c` function and returns a string.
+`b` is depended on `c` and it also returns a string.
+And `c` just return a string nothing speciall here.
+
+And here is the order of thee call stack, in what order the functions will be invoked.
+Here we can also se how the function get poped out from the call stack and how for exemple we invoke the the `b` and `c`
+functions after the previous task has been completed and popped of the call stack.
+
+<Image src="/static/images/call-stack-ex.svg" height={500} width={800} />
+
+So why is this even relevent to how recursion works and how we think recursevly?
+So let's show a recursive example when achive stackoverflow and when oru machine would crach beacuse it cant handle more items on thee stack, so we achive `stackoverflow`.
+
+```js
+function recFunc() {
+  recFunc() // call itsel with no basecase ---> stackoverflow
+}
+```
 
 <Image src="/static/images/call-stack.svg" height={500} width={800} />
