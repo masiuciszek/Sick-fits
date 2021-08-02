@@ -1,8 +1,8 @@
 ---
 title: recursion
 spoiler: Recursion is a powerful technique that helps us bridge the gap between complex problems being solved with elegant code.
-date: "2021-02-26"
-updated: "2020-06-26"
+date: "2021-04-26"
+updated: "2020-08-2"
 tags: ["CS", "recursion"]
 keywords: ["recursion", "CS"]
 slug: recursion
@@ -90,7 +90,9 @@ functions after the previous task has been completed and popped of the call stac
 <Image src="/static/images/call-stack-ex.svg" height={500} width={800} />
 
 So why is this even relevent to how recursion works and how we think recursevly?
-So let's show a recursive example when achive stackoverflow and when oru machine would crach beacuse it cant handle more items on thee stack, so we achive `stackoverflow`.
+So let's show a recursive example when achive stackoverflow and when our machine would crach beacuse it cant handle more items on thee stack, so we achive `stackoverflow`.
+Running this function it will just add the function to the callstack and never get any chance to pop it from the call stack when the functions get invoked.
+We have simply run out of memory that our machine can handle. The pre allocated buffer of memory has exceded.
 
 ```js
 function recFunc() {
@@ -98,4 +100,99 @@ function recFunc() {
 }
 ```
 
+This is the whole point why we need the basecase so we dont run out of memory and reache an state of `stackoverflow`.
+
 <Image src="/static/images/call-stack.svg" height={500} width={800} />
+
+### Recursion using strings
+
+Let's reverse a string using recursion.
+Two importatn questions to ask yourself before implementing your recursive function should be:
+
+- What is the base case?
+- What is smallest amount of work I need to do to achieve the final result?
+
+```ts
+const reverseStringRec = (input: string): string => {
+  // what is the base case?
+  // What is smallest amount of work I need to do to achieve the final result?
+}
+```
+
+A good way of thinking of the base case is when is the smallest amount of the impunt we can reach that we need imidetly stop our function to run.
+Rememeber we want to make the function as lazy as possible, so a good base case would be to check when we have an empty string then the funcction should imidetly return.
+
+Next thing to deal with is to implementing the logic. What is the smallest work we can do to achive our goal?
+So sonce again what is the smallest unit we can work with?
+Strings are built with a bunch of characters and we could just simply work with the characters one by one to modify the string.
+
+```ts
+const reverseStringRec = (input: string): string => {
+  if (string === "") return string
+  // What is smallest amount of work I need to do to achieve the final result?
+}
+```
+
+So our implementation could look like this.
+We simply take the first charachter from the input string, and we concatenate it after our recusrive call.
+We want to reach our basecase that is our goal. So building our mental model around that really help a lot.
+This is nice becasue we dont need to keep track of each letter on where it shoudl be put. We make the function deal with that.
+Every function call will be added to the call stack and will not be popped from the call stack until we hit our base case.
+So basically when we hit the base case every function will be popped out from the call stack.
+
+```ts
+const reverseStringRec = (string: string): string => {
+  if (string === "") return string
+  return reverseStringRec(string.slice(1)) + string.charAt(0)
+}
+
+reverseStringRec("hello") // olleh
+```
+
+I think this is a very elegent way to reverse a string using recursion, we simply add out functions tot he call stack and let the call stack deal with that,
+we don't care about anymore implmentation details just getting back our expected result back.
+
+**Another good example** is to chack if a string is a plaindrome using recustion.
+
+<Image src="/static/images/palindrome.svg" height={500} width={800} />
+
+A palindrome is if a string is the same word to its reversed version. So for example `racecar`
+reversed is still `racecar`.
+
+We basicly want to have two pointers, one that start from the beginning of the string and one that starts from the end.
+Wi will basiccly check if the first letter is equalt to last letter then we will go one step forward wit one pointer and backwords with the second pointer.
+
+without using recursion it could look something like this where `i` is our start pointer and `j` is our end pointer.
+
+```ts
+const isPlaindrome = (s: string): boolean => {
+  let i = 0
+  let j = s.length - 1
+  while (i < j) {
+    if (s[i] !== s[j]) {
+      return false
+    }
+    i++
+    j--
+  }
+
+  return true
+}
+```
+
+And here is the implementation using recursion.
+If the input string is empty ore has one charachter there is no profe that it is not a plaindrome so we return true.
+Instead of define two pointers in our previous implementation where we needed to increment and decrement the pointers.
+we instead check for every function call if the first letter is equal to the last letter.
+if thats the case we continou until we hit the our base case and return true else we will return false.
+
+```ts
+const palindrome = (s: string): boolean => {
+  if (s.length === 0 || s.length === 1) return true // basecase
+  if (s.charAt(0) === s.charAt(s.length - 1)) {
+    // our logic
+    return palindrome(s.slice(1, s.length - 1))
+  }
+  return false
+}
+```
