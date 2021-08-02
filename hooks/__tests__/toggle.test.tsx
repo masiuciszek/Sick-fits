@@ -1,4 +1,4 @@
-import {act,renderHook} from "@testing-library/react-hooks"
+import {act, renderHook} from "@testing-library/react-hooks"
 
 import useToggle from "../toggle"
 
@@ -7,38 +7,38 @@ describe("useToggle", () => {
     const {result} = renderHook(() => useToggle())
 
     // initialState is set to false
-    expect(result.current.state).toBeFalsy()
+    expect(result.current[0]).toBeFalsy()
 
     // we now change the state to true
     act(() => {
-      result.current.toTrue()
+      result.current[1]()
     })
 
     // state should be true
-    expect(result.current.state).toBeTruthy()
+    expect(result.current[0]).toBeTruthy()
 
     // we set it back to false
     act(() => {
-      result.current.toFalse()
+      result.current[2]()
     })
 
     // state should be false
-    expect(result.current.state).toBeFalsy()
+    expect(result.current[0]).toBeFalsy()
 
     // we toggle the current state
     act(() => {
-      result.current.toggle()
+      result.current[1]()
     })
 
     // state should be true
-    expect(result.current.state).toBeTruthy()
+    expect(result.current[0]).toBeTruthy()
 
     // we toggle the current state
     act(() => {
-      result.current.toggle()
+      result.current[1]()
     })
 
     // state should be false
-    expect(result.current.state).toBeFalsy()
+    expect(result.current[0]).toBeFalsy()
   })
 })

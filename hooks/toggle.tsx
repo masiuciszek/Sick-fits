@@ -1,13 +1,14 @@
-import {useState} from "react"
-
-interface Toggle {
+import {useMemo, useState} from "react"
+interface ToggleMap {
   state: boolean
   toggle: () => void
   toTrue: () => void
   toFalse: () => void
 }
+type Fn = () => void
+type ToggleReturnType = [boolean, Fn, Fn, Fn, ToggleMap]
 
-const useToggle = (initialState = false): Toggle => {
+const useToggle = (initialState = false): ToggleReturnType => {
   const [state, setState] = useState(initialState)
 
   const toTrue = (): void => {
@@ -20,7 +21,17 @@ const useToggle = (initialState = false): Toggle => {
     setState((prev) => !prev)
   }
 
-  return {state, toggle, toTrue, toFalse}
+  const handlers = useMemo(
+    () => ({
+      state,
+      toTrue,
+      toFalse,
+      toggle,
+    }),
+    [state],
+  )
+
+  return [state, toggle, toFalse, toTrue, handlers]
 }
 
 export default useToggle

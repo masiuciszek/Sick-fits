@@ -1,4 +1,4 @@
-import {css,SerializedStyles} from "@emotion/react"
+import {css, SerializedStyles} from "@emotion/react"
 import styled from "@emotion/styled"
 import useToggle from "@hooks/toggle"
 import {pxToRem} from "@styles/css-helpers"
@@ -22,11 +22,21 @@ const variants = {
   animate: {opacity: 1, y: 0, scale: 1},
 }
 
-const Tooltip: React.FC<Props> = ({title, ariaLabel, children, incomingStyles}) => {
-  const {state, toTrue, toFalse} = useToggle()
+const Tooltip: React.FC<Props> = ({
+  title,
+  ariaLabel,
+  children,
+  incomingStyles,
+}) => {
+  const [state, toTrue, toFalse] = useToggle()
 
   return (
-    <Wrapper onMouseEnter={toTrue} onMouseLeave={toFalse} onFocus={toTrue} onBlur={toFalse}>
+    <Wrapper
+      onMouseEnter={toTrue}
+      onMouseLeave={toFalse}
+      onFocus={toTrue}
+      onBlur={toFalse}
+    >
       <AnimateWrapper isOn={state}>
         <motion.span
           aria-hidden={state}

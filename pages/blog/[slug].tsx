@@ -9,7 +9,7 @@ import Counter from "@components/mdx/examples/counter"
 import Seo from "@components/seo/seo"
 import styled from "@emotion/styled"
 import {pxToRem} from "@styles/css-helpers"
-import {colors} from "@styles/styled-record"
+import {colors, sizes} from "@styles/styled-record"
 import {formatDate} from "@utils/helpers"
 import {getAllPosts, getPostBySlug} from "lib/api"
 import {serializeMdx} from "lib/markdown-to-html"
@@ -19,8 +19,11 @@ import {MDXRemote, MDXRemoteSerializeResult} from "next-mdx-remote"
 import {ParsedUrlQuery} from "querystring"
 import {FC, Fragment} from "react"
 type PostItem = Omit<PostItemType, "slug">
+import Title from "@components/common/title"
+import {css} from "@emotion/react"
+import {above} from "@styles/media-query"
 import Image from "next/image"
-// import {useInView} from "react-intersection-observer"
+
 interface FrontMatter extends PostItem {
   date: string
   keywords: string[]
@@ -40,9 +43,6 @@ interface Props {
 }
 
 const PostPage: FC<Props> = ({postData, postSlugs}) => {
-  // const {ref, inView, entry} = useInView({
-  //   threshold: 0,
-  // })
   const router = useRouter()
   if (router.isFallback) {
     // TODO: Fix
@@ -53,11 +53,10 @@ const PostPage: FC<Props> = ({postData, postSlugs}) => {
     router.query.slug as string,
   )
 
-  const {title, spoiler, updated, tags} = postData?.scope as Record<
+  const {title, spoiler, updated, tags, date} = postData?.scope as Record<
     string,
     FrontMatterValues
   >
-
   return (
     <Fragment>
       <Seo
@@ -65,9 +64,28 @@ const PostPage: FC<Props> = ({postData, postSlugs}) => {
         description={`About blog post ${title}. ${spoiler}`}
       />
       <PostWrapper>
-        <h1>
-          {title} <span>{formatDate(updated as string)}</span>
-        </h1>
+        <Title
+          incomingStyles={css`
+            span {
+              color: ${colors.colorTextPrimary};
+            }
+            h1 {
+              font-size: ${sizes.h3};
+              @media ${above.tablet} {
+                font-size: ${sizes.h2};
+              }
+            }
+          `}
+        >
+          <h1>
+            <small>
+              Created <span>{formatDate(date as string)}</span>{" "}
+            </small>
+            <br />
+            {title} <span>updated</span>{" "}
+            <span>{formatDate(updated as string)}</span>
+          </h1>
+        </Title>
 
         <List>
           {(tags as Array<string>).map((tag) => (

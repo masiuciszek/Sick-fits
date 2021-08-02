@@ -61,12 +61,7 @@ const LogoWrapper = styled.div`
 const Header = () => {
   const {storedTheme, handleTheme} = useTheme()
   const isAboveTablet = useMediaQuery(above.tablet)
-  const {
-    state: showMenu,
-    toTrue: openMenu,
-    toFalse: closeMenu,
-    toggle: toggleMenu,
-  } = useToggle()
+  const [showMenu, openMenu, closeMenu, toggleMenu] = useToggle()
 
   useHotkeys("ctrl+k", toggleMenu)
   useHotkeys("ctrl+t", handleTheme, {keyup: true}, [storedTheme])

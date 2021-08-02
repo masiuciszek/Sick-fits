@@ -5,15 +5,9 @@ interface Item {
   [key: string]: string
 }
 
-const getDirectory = (directory: string) => {
-  return join(process.cwd(), directory)
-}
-
+const getDirectory = (directory: string) => join(process.cwd(), directory)
 const postsDirectory = getDirectory("posts")
-
-export const getPostSlugs = () => {
-  return fs.readdirSync(postsDirectory)
-}
+export const getPostSlugs = () => fs.readdirSync(postsDirectory)
 
 export const getPostBySlug = (slug: string, fields: string[] = []) => {
   const fixedSlug = slug.replace(/\.mdx$/, "")
