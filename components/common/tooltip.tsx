@@ -28,7 +28,7 @@ const Tooltip: React.FC<Props> = ({
   children,
   incomingStyles,
 }) => {
-  const [state, toTrue, toFalse] = useToggle()
+  const {state, toTrue, toFalse} = useToggle()
 
   return (
     <Wrapper
