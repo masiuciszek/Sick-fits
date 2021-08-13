@@ -295,3 +295,48 @@ const reverseList = (node: Node) => {
   return p
 }
 ```
+
+### Using recursion in your front end application.
+
+We can also use recursion in our projects and sometimes it is a much more handy, elegent and better tool to use then iterate over a list.
+For example if we want to render a tree data structure in our React application..
+We don't know how many level deep the tree has and we still want to make it dynamic so if the tree grows we don't want to update the code all the time, this can simply be solved using recursion.
+The tru fact is that our machines using recursion under the hood wehn we try to run a script that searches for folders and files on our machine.
+
+For example a folder structure where we have the main root folder and it can have children as folders and inside the folders we have our files.
+
+We can build this with React, here is the full code example [repository](https://github.com/) if you want to checkout it out.
+
+we want to stope the recursion as soon we hit our base case, if their is no more items left.
+
+```tsx
+const Tree: FC<TreeProps> = ({treeData, parentId = 0, level = 0}) => {
+  const items = treeData.filter((item) => item.parentId === parentId)
+  if (!items || !items.length) return null // Base case
+
+  return items.map((item) => (
+    <div key={item.id}>
+      <Wrapper level={level} item={item}>
+        <Tree treeData={treeData} parentId={item.id} level={level + 1} />
+      </Wrapper>
+    </div>
+  ))
+}
+
+getTreeData = () => {
+  return data.map((x) => ({
+    ...x,
+    hasChildren: data.filter((item) => item.parentId === x.id).length > 0,
+  }))
+}
+
+const App = () => (
+  <div>
+    <Container>
+      <Tree treeData={getTreeData()} />
+    </Container>
+  </div>
+)
+```
+
+This tecnique was something I got inspred and learned from [dev1] and [dev2] since I had a situation at my job where I need to build something similar to this.
