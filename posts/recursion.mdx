@@ -37,7 +37,15 @@ We just want to do as little work as possible to achieve the result, as soon we 
 Let's say we stand in a long line in the grocery shop. We want to know what time it is, so you ask the person in front of you what time it is.
 The Person in front also does not know, so he/she ask the next person.
 The next person does also not know see it goes on until we come to the cashier, cashier knows the time, and we message goes back until it reaches us again.
-So how does this example have something with the function is lazy?
+So how does this example have something to do with laziness?
+
+If we would do this in an iterative approach we would go and ask each person what time it is until we reach the cashier, so we have gone through the whole line just to know what time it is.
+
+Wit the recursive approach we have just asked one person and been stating in the same place in the line and get back the same result.
+See how lazy we can be and still reach the same result.
+That's how I like to build my mental model on how recursive functions work.
+
+
 
 ## Why ore why not use recursion?
 
@@ -51,13 +59,14 @@ So how does this example have something with the function is lazy?
 ## Callstack
 
 To understand how the recursion works and how the process of the whole execution we need to understand the `call stack`.
-The call stack is a `stack` based data structure. To explain more how the call stack works let's visualize our day.
+The call stack is a `stack` based data structure. To explain more how the call stack works let's visualize our day at work.
 
 Let's say you go to work one day, you want to start your day by reading a blog post that you wanted to read and that you prepared for this morning.
 While you reading you hearing your boss knocking on your shoulder and says: _I need you to attend the meeting in 5min_.
-So you now need to attend the meeting, and the reading is the second prioritized since the meeting is important, well you can read the post after the meeting.
-Then your boss walks in again and says that you need not attend this other meeting that you should impress some investors, and that's is what you will do, impress the investors is now more important.
-Then the boss says once again I need you to help `John` with his code, It is urgent and we need to ship this code into production as soon as possible.
+
+So you now need to attend the meeting, and the reading is the second prioritized since the meeting is more important, well you can read the post after the meeting.
+Then your boss walks in again and says that you need to attend to this other meeting that you should impress some investors, and that's is what you will do, impress the investors is now more important.
+Then the boss says once again I need you to help `Tina` with her code, It is urgent and we need to ship this code into production as soon as possible.
 
 So now you can't:
 
@@ -65,9 +74,9 @@ So now you can't:
 - attend the first meeting
 - impress the investors
 
-Until you help John with his code.
-But once you help `John` it gets popped out from your to-do list and you can then impress the investors.
-After that, you can attend the meeting.
+Until you help Tina with her code.
+But once you help `Tina` it gets popped out from your to-do list and you can then impress the investors.
+After that, you can attend to the meeting.
 When you are done with the meeting you will have some time to read your blog post.
 This is a visualized way of how the call stack works.
 
@@ -101,7 +110,7 @@ functions after the previous task have been completed and popped off the call st
 <Image src="/static/images/call-stack-ex.svg" height={500} width={800} />
 
 So why is this even relevant to how recursion works and how we think recursively?
-So let's show a recursive example when achieving StackOverflow and when our machine would crash because it can’t handle more items on the stack, so we achieve `StackOverflow.
+So let's show a recursive example when our machine will simply crash because it can’t handle more items on the stack, We have achieved *StackOverflow*.
 Running this function will just add the function to the call stack and never get any chance to pop it from the call stack when the functions get invoked.
 We have simply run out of memory that our machine can handle. The pre-allocated buffer of memory has exceeded.
 
