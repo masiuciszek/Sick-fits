@@ -8,10 +8,16 @@ keywords: ["recursion", "CS"]
 slug: recursion
 ---
 
+Have you seen the movie Inception where they go into other people's dreams, they could go an infinite amount of levels deep, and to know they are still in a dream they have the token that tells them if they are kept in the dream or not.
+The token will help them to not keep going deeper until we lose control and never can wake up from the dream.
+They basically don't have any base case and will run forever and never wake up from their infinitive nested dreams.
+
 Recursion is a powerful technique to know as a software engineer.
 Recursion is a function that calls itself until it hits our because otherwise, it will keep stuck in an infinite loop.
-It may return a value ore it doesn't.
+It may return a value or it doesn't.
 That's why we need our condition on some parameter such that when we hit some condition at some point we will stop the recursion.
+It is hard to grasp of how recursive functions works but as soon you built a good mental model how they work, they can be very handy.
+ 
 
 ```ts
 const countToTen = (n: number): number => {
@@ -23,8 +29,6 @@ const countToTen = (n: number): number => {
 console.log(countToTen(0))
 ```
 
-Have you seen the movie Inception where they go into other people's dreams, they could go an infinite amount of levels deep, and to know they are still in a dream they have the token that tells them if they are kept in the dream or not.
-The token is the base case, it will help us to not keep going deeper until we lose control and never can wake up from the dream.
 
 ## Recursions are lazy
 
@@ -35,10 +39,10 @@ We just want to do as little work as possible to achieve the result, as soon we 
 
 | pros                                                                      | cons                                                    |
 | ------------------------------------------------------------------------- | ------------------------------------------------------- |
-| Elegance and complexity                                                   | make the CPU work alot,slowness                         |
-| Reduce complex imperative loops, such as traverse a tree                  | can lead out of memory fast, `stackoverflow`            |
-| Reduce time complexity, with memoization                                  | Can be more complex then needed if written in a bad way |
-| Works really well with data structures, like for example `graphs`,`trees` |                                                         |
+| Elegance and complexity                                                   | make the CPU work a lot, slowness                         |
+| Reduce complex imperative loops, such as traverse a tree                  | can lead out of memory fast, `StackOverflow            |
+| Reduce time complexity, with memoization                                  | Can be more complex than needed if written in a bad way |
+| Works well with data structures, like for example `graphs`,`trees` |                                                         |
 
 ## Callstack
 
@@ -54,7 +58,7 @@ Then the boss says once again I need you to help `John` with his code, It is urg
 So now you can't:
 
 - Read your blog post
-- attend to the first meeting
+- attend the first meeting
 - impress the investors
 
 Until you help John with his code.
@@ -93,7 +97,7 @@ functions after the previous task have been completed and popped off the call st
 <Image src="/static/images/call-stack-ex.svg" height={500} width={800} />
 
 So why is this even relevant to how recursion works and how we think recursively?
-So let's show a recursive example when achieving StackOverflow and when our machine would crash because it cant handle more items on the stack, so we achieve `StackOverflow.
+So let's show a recursive example when achieving StackOverflow and when our machine would crash because it can’t handle more items on the stack, so we achieve `StackOverflow.
 Running this function will just add the function to the call stack and never get any chance to pop it from the call stack when the functions get invoked.
 We have simply run out of memory that our machine can handle. The pre-allocated buffer of memory has exceeded.
 
@@ -276,8 +280,9 @@ const fibMemo = () => {
 ### Reverse a Linked list
 
 Sometimes if your interviewer wants to be hard on you he/she might ask you to reverse a linked list. A good mental model to reverse a linked list is the core to solve this problem.
-But with using recursion it gets much more simplified and elegant if you ask me.
-Basically we want our tail to be our head and our head to be the tail + all its siblings to follow the same pattern.
+We can, of course, solve the problem using for example a for loop, but I think recursion makes the logic much simpler.
+By using recursion it gets more elegant, and we get rid of more code.
+Basically, we want our tail to be our head and our head to be the tail + all its siblings to follow the same pattern.
 
 ```shell
 1 --> 7 --> 34 --> 2 --> 23
@@ -295,3 +300,14 @@ const reverseList = (node: Node) => {
   return p
 }
 ```
+
+
+### Conclusion
+
+* Recursion is a function that calls itself and always needs a because to stop the recursive function.
+* A base cause is like our guard that stops the function, we aim to hit the base case.
+* Recursive functions are lazy, the function will only do the least amount of work to do the work.
+* In some cases make the code more readable and elegant but remember that our CPU will work harder.
+* Reduce complex logic, for example when we traverse a tree data structure.
+
+
