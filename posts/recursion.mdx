@@ -41,7 +41,7 @@ So how does this example have something to do with laziness?
 
 If we would do this in an iterative approach we would go and ask each person what time it is until we reach the cashier, so we have gone through the whole line just to know what time it is.
 
-Wit the recursive approach we have just asked one person and been stating in the same place in the line and get back the same result.
+With the recursive approach we have just asked one person and been stating in the same place in the line and get back the same result.
 See how lazy we can be and still reach the same result.
 That's how I like to build my mental model on how recursive functions work.
 
@@ -52,7 +52,7 @@ That's how I like to build my mental model on how recursive functions work.
 | pros                                                                      | cons                                                    |
 | ------------------------------------------------------------------------- | ------------------------------------------------------- |
 | Elegance and complexity                                                   | make the CPU work a lot, slowness                         |
-| Reduce complex imperative loops, such as traverse a tree                  | can lead out of memory fast, `StackOverflow            |
+| Reduce complex imperative loops, such as traverse a tree                  | can lead out of memory fast, *StackOverflow*            |
 | Reduce time complexity, with memoization                                  | Can be more complex than needed if written in a bad way |
 | Works well with data structures, like for example `graphs`,`trees` |                                                         |
 
@@ -124,12 +124,14 @@ This is the whole point of why we need the base case so we don't run out of memo
 
 <Image src="/static/images/call-stack.svg" height={500} width={800} />
 
-### Recursion using strings
+## Some examples using recursion
+
+### strings
 
 Let's reverse a string using recursion.
 Two important questions to ask yourself before implementing your recursive function should be:
 
-- What is the base case?
+- What is the base case, when do we want to stop our recursive function?
 - What is the smallest amount of work I need to do to achieve the final result?
 
 ```ts
@@ -140,7 +142,7 @@ const reverseStringRec = (input: string): string => {
 ```
 
 A good way of thinking of the base case is when is the smallest amount of the import we can reach that we need immodestly stop our function to run.
-Remember we want to make the function as lazy as possible, so a good base case would be to check when we have an empty string then the function should imminently return.
+Remember we want to do as little as possible, so a good base case would be to check when we have an empty string then the function should imminently return.
 
 The next thing to deal with is to implement the logic. What is the smallest work we can do to achieve our goal?
 So once again what is the smallest unit we can work with?
