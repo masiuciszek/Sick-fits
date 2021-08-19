@@ -30,7 +30,7 @@ console.log(countToTen(0))
 ```
 
 
-## Recursions are lazy
+## Lazy
 
 If we think we would be a recursive function, just for a moment.
 We just want to do as little work as possible to achieve the result, as soon we hit our base case we are done.
@@ -171,8 +171,11 @@ const reverseStringRec = (string: string): string => {
 reverseStringRec("hello") // olleh
 ```
 
-I think this is a very elegant way to reverse a string using recursion, we simply add out functions to the call stack and let the call stack deal with that,
-we don't care about any more implementation details just getting back our expected result back.
+I think this is a very elegant way to reverse a string using recursion.
+We don't care about any more implementation details just getting back our expected result back.
+Reversing a string without recursion is still pretty simple and there is not a lot of code that we need to write.
+But still, for learning purposes, it is nice to know how to reverse a string using recursion.
+
 
 **Another good example** is to check if a string is a palindrome using recursion.
 
@@ -183,7 +186,6 @@ reversed is still `racecar`.
 
 We want to have two pointers, one that starts from the beginning of the string and one that starts from the end.
 We will check if the first letter is equal to the last letter then we will go one step forward with one pointer and backwords with the second pointer.
-
 without using recursion it could look something like this where `i` is our start pointer and `j` is our end pointer.
 
 ```ts
@@ -205,7 +207,7 @@ const isPlaindrome = (s: string): boolean => {
 And here is the implementation using recursion.
 If the input string is empty or has one character there is no proof that it is not a palindrome so we return true.
 Instead of define two pointers in our previous implementation where we needed to increment and decrement the pointers.
-we instead check for every function call if the first letter is equal to the last letter.
+We instead check for every function call if the first letter is equal to the last letter.
 if that's the case we continue until we hit our base case and return true else we will return false.
 
 ```ts
@@ -223,16 +225,16 @@ const palindrome = (s: string): boolean => {
 
 Let's have a look at how we work with numbers using recursion. Let's implement a function that takes in a number and sum up all the values up to that number
 using recursion.
-This function should return `55`.
+The function should return `55`.
 
 ```ts
-const recursiveSummation = (n: number): number => {
+const recursiveSum = (n: number): number => {
   if (n <= 0) {
     return n
   }
-  return n + recursiveSummation(n - 1)
+  return n + recursiveSum(n - 1)
 }
-recursiveSummation(10) // 55
+recursiveSum(10) // 55
 ```
 
 We add the current value of `n` and add to the recursive call where we subtract the previous value.
@@ -251,12 +253,18 @@ So for every function call, the value of `n` will be shrunk and another stack fr
 - 1 recursiveSummation(n - 1)
 
 Another common example to demonstrate recursion with numbers is to implement the Fibonacci sequence.
-If you don't know what thee Fibonacci works. Each number is the sum of two preceding ones, starting from 0 and 1.
+If you don't know how the Fibonacci works. Each number is the sum of two preceding ones, starting from 0 and 1.
 `0, 1, 1, 2, 3, 5, 8, 13, 21, 34`
+So:
+`
+ 2+3 = 5
+ 3+5 = 8
+ 5+8 = 13
+ .....`
 
 This is a very elegant solution to solve this problem using recursion. This function is not optimized since we do a lot of the same calculation more than once.
 To optimize this we could use memoization.
-But just build another mental model, it is a great example to see how the Fibonacci sequence is implemented.
+But just to get a grasp and understanding of recursion, it is a great example to see how the Fibonacci sequence could be implemented using recursion.
 
 ```ts
 const fib = (n: number): number => {
@@ -271,7 +279,7 @@ And here is the memoized version of the Fibonacci sequence.
 In this case, we will not recalculate what we already know. The call stack will not have multiple function calls that need to be handled that will give us
 the same result.
 We store what we already calculated in the cache`(map)` if we have it just use it else we add it to the cache.
-Try to run the first version with fib`(50)` and the second version and check out how much faster the memoized version is.
+Try to run the first version with fib`(50)` and the second version and compare the runtime of the two versions.
 
 ```ts
 const fibMemo = () => {
