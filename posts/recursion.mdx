@@ -291,42 +291,18 @@ const fibMemo = () => {
 }
 ```
 
-### Reverse a Linked list
-
-Sometimes if your interviewer wants to be hard on you he/she might ask you to reverse a linked list. A good mental model to reverse a linked list is the core to solve this problem.
-We can, of course, solve the problem using for example a for loop, but I think recursion makes the logic much simpler.
-By using recursion it gets more elegant, and we get rid of more code.
-Basically, we want our tail to be our head and our head to be the tail + all its siblings to follow the same pattern.
-
-```shell
-1 --> 7 --> 34 --> 2 --> 23
-
-# Aftere we have reversed the list
-23 --> 2--> 34 --> 7 --> 1
-```
-
-```ts
-const reverseList = (node: Node) => {
-  if (node === null || node.next === null) return node
-  const p = this.reverse(node.next)
-  node.next.next = node
-  node.next = null
-  return p
-}
-```
-
 ### Using recursion in your front end application.
 
-We can also use recursion in our projects and sometimes it is a much more handy, elegent and better tool to use then iterate over a list.
-For example if we want to render a tree data structure in our React application..
-We don't know how many level deep the tree has and we still want to make it dynamic so if the tree grows we don't want to update the code all the time, this can simply be solved using recursion.
-The tru fact is that our machines using recursion under the hood wehn we try to run a script that searches for folders and files on our machine.
+We can also use recursion in our projects, and sometimes it is a much more handy, element and better tool to use then iterate over a list.
+For example if we want to render a tree data structure in our React application…
+We don't know how many level deep the tree has, and we still want to make it dynamic so if the tree grows we don't want to update the code all the time, this can simply be solved using recursion.
+The true fact is that our machines using recursion under the hood, when we try to run a script that searches for folders and files on our machine.
 
-For example a folder structure where we have the main root folder and it can have children as folders and inside the folders we have our files.
+For example a folder structure where we have the main root folder, and it can have children as folders and inside the folders we have our files.
 
-We can build this with React, here is the full code example [repository](https://github.com/) if you want to checkout it out.
+We can build this with React, here is the full code example [repository](https://github.com/masiucd/Recursive-render) if you want to check out it out.
 
-we want to stope the recursion as soon we hit our base case, if their is no more items left.
+We want to stop the recursion as soon we hit our base case, if there is no more items left.
 
 ```tsx
 const Tree: FC<TreeProps> = ({treeData, parentId = 0, level = 0}) => {

@@ -9,7 +9,7 @@ import Counter from "@components/mdx/examples/counter"
 import Seo from "@components/seo/seo"
 import styled from "@emotion/styled"
 import {pxToRem} from "@styles/css-helpers"
-import {colors, sizes} from "@styles/styled-record"
+import {colors, fonts, sizes} from "@styles/styled-record"
 import {formatDate} from "@utils/helpers"
 import {getAllPosts, getPostBySlug} from "lib/api"
 import {serializeMdx} from "lib/markdown-to-html"
@@ -175,8 +175,12 @@ const List = styled.ul`
 
 const EditPostLink = styled.a`
   position: absolute;
-  top: 1rem;
-  right: 2rem;
+  top: -1.65rem;
+  right: 0rem;
+  @media ${above.betweenTabletMobileL} {
+    top: 1rem;
+    right: 2rem;
+  }
   display: flex;
   align-items: center;
   font-size: ${pxToRem(10)};
@@ -204,12 +208,8 @@ const EditPostLink = styled.a`
 
 // IntersectionObserverEntry
 const components = {
-  // CodeBlock: dynamic(() => import("../../components/mdx/code-block")),
   code: CodeBlock,
   Counter,
-  img: (props: any) => {
-    return <Image alt={props.alt || "Image"} {...props} />
-  },
   Image: (props: any) => {
     return <Image alt={props.alt || "Image"} {...props} />
   },
