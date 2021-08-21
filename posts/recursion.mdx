@@ -8,10 +8,15 @@ keywords: ["recursion", "CS"]
 slug: recursion
 ---
 
+Have you seen the movie Inception where they go into other people's dreams, they could go an infinite amount of levels deep, and to know they are still in a dream they have the token that tells them if they are kept in the dream or not.
+The token will help them to not keep going deeper until we lose control and never can wake up from the dream.
+They basically don't have any base case and will run forever and never wake up from their infinitive nested dreams.
+
 Recursion is a powerful technique to know as a software engineer.
 Recursion is a function that calls itself until it hits our because otherwise, it will keep stuck in an infinite loop.
-It may return a value ore it doesn't.
+It may return a value or it doesn't.
 That's why we need our condition on some parameter such that when we hit some condition at some point we will stop the recursion.
+It is hard to grasp of how recursive functions works but as soon you built a good mental model how they work, they can be very handy.
 
 ```ts
 const countToTen = (n: number): number => {
@@ -23,43 +28,51 @@ const countToTen = (n: number): number => {
 console.log(countToTen(0))
 ```
 
-Have you seen the movie Inception where they go into other people's dreams, they could go an infinite amount of levels deep, and to know they are still in a dream they have the token that tells them if they are kept in the dream or not.
-The token is the base case, it will help us to not keep going deeper until we lose control and never can wake up from the dream.
-
-## Recursions are lazy
+## Lazy
 
 If we think we would be a recursive function, just for a moment.
 We just want to do as little work as possible to achieve the result, as soon we hit our base case we are done.
+Let's say we stand in a long line in the grocery shop. We want to know what time it is, so you ask the person in front of you what time it is.
+The Person in front also does not know, so he/she ask the next person.
+The next person does also not know see it goes on until we come to the cashier, cashier knows the time, and we message goes back until it reaches us again.
+So how does this example have something to do with laziness?
+
+If we would do this in an iterative approach we would go and ask each person what time it is until we reach the cashier, so we have gone through the whole line just to know what time it is.
+
+With the recursive approach we have just asked one person and been stating in the same place in the line and get back the same result.
+See how lazy we can be and still reach the same result.
+That's how I like to build my mental model on how recursive functions work.
 
 ## Why ore why not use recursion?
 
-| pros                                                                      | cons                                                    |
-| ------------------------------------------------------------------------- | ------------------------------------------------------- |
-| Elegance and complexity                                                   | make the CPU work alot,slowness                         |
-| Reduce complex imperative loops, such as traverse a tree                  | can lead out of memory fast, `stackoverflow`            |
-| Reduce time complexity, with memoization                                  | Can be more complex then needed if written in a bad way |
-| Works really well with data structures, like for example `graphs`,`trees` |                                                         |
+| pros                                                               | cons                                                    |
+| ------------------------------------------------------------------ | ------------------------------------------------------- |
+| Elegance and complexity                                            | make the CPU work a lot, slowness                       |
+| Reduce complex imperative loops, such as traverse a tree           | can lead out of memory fast, _StackOverflow_            |
+| Reduce time complexity, with memoization                           | Can be more complex than needed if written in a bad way |
+| Works well with data structures, like for example `graphs`,`trees` |                                                         |
 
 ## Callstack
 
 To understand how the recursion works and how the process of the whole execution we need to understand the `call stack`.
-The call stack is a `stack` based data structure. To explain more how the call stack works let's visualize our day.
+The call stack is a `stack` based data structure. To explain more how the call stack works let's visualize our day at work.
 
 Let's say you go to work one day, you want to start your day by reading a blog post that you wanted to read and that you prepared for this morning.
 While you reading you hearing your boss knocking on your shoulder and says: _I need you to attend the meeting in 5min_.
-So you now need to attend the meeting, and the reading is the second prioritized since the meeting is important, well you can read the post after the meeting.
-Then your boss walks in again and says that you need not attend this other meeting that you should impress some investors, and that's is what you will do, impress the investors is now more important.
-Then the boss says once again I need you to help `John` with his code, It is urgent and we need to ship this code into production as soon as possible.
+
+So you now need to attend the meeting, and the reading is the second prioritized since the meeting is more important, well you can read the post after the meeting.
+Then your boss walks in again and says that you need to attend to this other meeting that you should impress some investors, and that's is what you will do, impress the investors is now more important.
+Then the boss says once again I need you to help `Tina` with her code, It is urgent and we need to ship this code into production as soon as possible.
 
 So now you can't:
 
 - Read your blog post
-- attend to the first meeting
+- attend the first meeting
 - impress the investors
 
-Until you help John with his code.
-But once you help `John` it gets popped out from your to-do list and you can then impress the investors.
-After that, you can attend the meeting.
+Until you help Tina with her code.
+But once you help `Tina` it gets popped out from your to-do list and you can then impress the investors.
+After that, you can attend to the meeting.
 When you are done with the meeting you will have some time to read your blog post.
 This is a visualized way of how the call stack works.
 
@@ -93,7 +106,7 @@ functions after the previous task have been completed and popped off the call st
 <Image src="/static/images/call-stack-ex.svg" height={500} width={800} />
 
 So why is this even relevant to how recursion works and how we think recursively?
-So let's show a recursive example when achieving StackOverflow and when our machine would crash because it cant handle more items on the stack, so we achieve `StackOverflow.
+So let's show a recursive example when our machine will simply crash because it can’t handle more items on the stack, We have achieved _StackOverflow_.
 Running this function will just add the function to the call stack and never get any chance to pop it from the call stack when the functions get invoked.
 We have simply run out of memory that our machine can handle. The pre-allocated buffer of memory has exceeded.
 
@@ -107,12 +120,14 @@ This is the whole point of why we need the base case so we don't run out of memo
 
 <Image src="/static/images/call-stack.svg" height={500} width={800} />
 
-### Recursion using strings
+## Some examples using recursion
+
+### strings
 
 Let's reverse a string using recursion.
 Two important questions to ask yourself before implementing your recursive function should be:
 
-- What is the base case?
+- What is the base case, when do we want to stop our recursive function?
 - What is the smallest amount of work I need to do to achieve the final result?
 
 ```ts
@@ -123,7 +138,7 @@ const reverseStringRec = (input: string): string => {
 ```
 
 A good way of thinking of the base case is when is the smallest amount of the import we can reach that we need immodestly stop our function to run.
-Remember we want to make the function as lazy as possible, so a good base case would be to check when we have an empty string then the function should imminently return.
+Remember we want to do as little as possible, so a good base case would be to check when we have an empty string then the function should imminently return.
 
 The next thing to deal with is to implement the logic. What is the smallest work we can do to achieve our goal?
 So once again what is the smallest unit we can work with?
@@ -152,8 +167,10 @@ const reverseStringRec = (string: string): string => {
 reverseStringRec("hello") // olleh
 ```
 
-I think this is a very elegant way to reverse a string using recursion, we simply add out functions to the call stack and let the call stack deal with that,
-we don't care about any more implementation details just getting back our expected result back.
+I think this is a very elegant way to reverse a string using recursion.
+We don't care about any more implementation details just getting back our expected result back.
+Reversing a string without recursion is still pretty simple and there is not a lot of code that we need to write.
+But still, for learning purposes, it is nice to know how to reverse a string using recursion.
 
 **Another good example** is to check if a string is a palindrome using recursion.
 
@@ -164,7 +181,6 @@ reversed is still `racecar`.
 
 We want to have two pointers, one that starts from the beginning of the string and one that starts from the end.
 We will check if the first letter is equal to the last letter then we will go one step forward with one pointer and backwords with the second pointer.
-
 without using recursion it could look something like this where `i` is our start pointer and `j` is our end pointer.
 
 ```ts
@@ -186,7 +202,7 @@ const isPlaindrome = (s: string): boolean => {
 And here is the implementation using recursion.
 If the input string is empty or has one character there is no proof that it is not a palindrome so we return true.
 Instead of define two pointers in our previous implementation where we needed to increment and decrement the pointers.
-we instead check for every function call if the first letter is equal to the last letter.
+We instead check for every function call if the first letter is equal to the last letter.
 if that's the case we continue until we hit our base case and return true else we will return false.
 
 ```ts
@@ -204,16 +220,16 @@ const palindrome = (s: string): boolean => {
 
 Let's have a look at how we work with numbers using recursion. Let's implement a function that takes in a number and sum up all the values up to that number
 using recursion.
-This function should return `55`.
+The function should return `55`.
 
 ```ts
-const recursiveSummation = (n: number): number => {
+const recursiveSum = (n: number): number => {
   if (n <= 0) {
     return n
   }
-  return n + recursiveSummation(n - 1)
+  return n + recursiveSum(n - 1)
 }
-recursiveSummation(10) // 55
+recursiveSum(10) // 55
 ```
 
 We add the current value of `n` and add to the recursive call where we subtract the previous value.
@@ -232,12 +248,14 @@ So for every function call, the value of `n` will be shrunk and another stack fr
 - 1 recursiveSummation(n - 1)
 
 Another common example to demonstrate recursion with numbers is to implement the Fibonacci sequence.
-If you don't know what thee Fibonacci works. Each number is the sum of two preceding ones, starting from 0 and 1.
+If you don't know how the Fibonacci works. Each number is the sum of two preceding ones, starting from 0 and 1.
 `0, 1, 1, 2, 3, 5, 8, 13, 21, 34`
+So:
+` 2+3 = 5 3+5 = 8 5+8 = 13 .....`
 
 This is a very elegant solution to solve this problem using recursion. This function is not optimized since we do a lot of the same calculation more than once.
 To optimize this we could use memoization.
-But just build another mental model, it is a great example to see how the Fibonacci sequence is implemented.
+But just to get a grasp and understanding of recursion, it is a great example to see how the Fibonacci sequence could be implemented using recursion.
 
 ```ts
 const fib = (n: number): number => {
@@ -252,7 +270,7 @@ And here is the memoized version of the Fibonacci sequence.
 In this case, we will not recalculate what we already know. The call stack will not have multiple function calls that need to be handled that will give us
 the same result.
 We store what we already calculated in the cache`(map)` if we have it just use it else we add it to the cache.
-Try to run the first version with fib`(50)` and the second version and check out how much faster the memoized version is.
+Try to run the first version with fib`(50)` and the second version and compare the runtime of the two versions.
 
 ```ts
 const fibMemo = () => {
@@ -276,8 +294,9 @@ const fibMemo = () => {
 ### Reverse a Linked list
 
 Sometimes if your interviewer wants to be hard on you he/she might ask you to reverse a linked list. A good mental model to reverse a linked list is the core to solve this problem.
-But with using recursion it gets much more simplified and elegant if you ask me.
-Basically we want our tail to be our head and our head to be the tail + all its siblings to follow the same pattern.
+We can, of course, solve the problem using for example a for loop, but I think recursion makes the logic much simpler.
+By using recursion it gets more elegant, and we get rid of more code.
+Basically, we want our tail to be our head and our head to be the tail + all its siblings to follow the same pattern.
 
 ```shell
 1 --> 7 --> 34 --> 2 --> 23
@@ -339,4 +358,12 @@ const App = () => (
 )
 ```
 
-This tecnique was something I got inspred and learned from [dev1] and [dev2] since I had a situation at my job where I need to build something similar to this.
+This tecnique was something I got inspred and learned from [Kyle Shelvin](https://kyleshevlin.com/recursive-react-components) since I had a situation at my job where I need to build something similar to this.
+
+### Conclusion
+
+- Recursion is a function that calls itself and always needs a because to stop the recursive function.
+- A base cause is like our guard that stops the function, we aim to hit the base case.
+- Recursive functions are lazy, the function will only do the least amount of work to do the work.
+- In some cases make the code more readable and elegant but remember that our CPU will work harder.
+- Reduce complex logic, for example when we traverse a tree data structure.
