@@ -291,6 +291,52 @@ const fibMemo = () => {
 }
 ```
 
+### Trees and recursion
+
+Trees work well with recursion.
+The first example would take look at is how to insert a value into a `binary search tree`.
+A `BST` starts from the top down where we have multiple connections going from the root(top) down to its children.
+Every parent Node can only have 2 children nodes and the least amount of nodes that we can have is zero.
+Everything to the left of the root node is less than the root and everything to the right is greater than the root node.
+
+<Image src="/static/images/tree.png" height={500} width={800} />
+
+So our task will be to insert a new node with the value of `30` so we need to compare,
+is the new node greater or less than the root node, if it is greater we go to the right else we go to the left of the tree?
+So in this case we go to the left, and we do the same thing, we compare our node with the current node we are at.
+Is `30` greater or less than the current node? It is still less so we keep going left.
+Now we are at node `25` and we ask the same question.
+Is `30` greater or less than the current node? It is greater in this case and `25` does not have any children so we will not keep traversing, we will insert our new node at the right of `25`.
+
+Here we can view the full path of our new node that gets inserted
+
+<Image src="/static/images/insert-node.svg" height={500} width={800} />
+
+Lets take a look on how the implementation would look like.
+
+```ts
+const insert = (head: Node, data: number) => {
+  const newNode = new Node(data)
+  if (head === null) {
+    head = newNode
+    return head
+  }
+  if (head.data < data) {
+    head.right = insert(head.right, data)
+  } else {
+    head.left = insert(head.left, data)
+  }
+  return node
+}
+```
+
+- The first thing we need to cover is if there is no head inserted yet. Then we want to insert our new node to be our root node.
+- If data is greater than the node we will recurse to the right of the tree.
+- If data is less than the node we will recurse to the left of the tree.
+- Finally, we will return the root node of the tree
+
+Let's take a look at the callstack.
+
 ### Using recursion in your front end application.
 
 We can also use recursion in our projects, and sometimes it is a much more handy, element and better tool to use then iterate over a list.
