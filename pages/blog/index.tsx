@@ -8,9 +8,10 @@ import {flexColumn, flexRow, pxToRem} from "@styles/css-helpers"
 import {borderRadius, colors, fonts} from "@styles/styled-record"
 import {NextPage} from "next"
 import {GetStaticProps} from "next"
-import {Fragment, useState} from "react"
+import {ChangeEvent, Fragment, useState} from "react"
 
 import {getAllPosts} from "../../lib/api"
+import {getFilteredPost} from "../../lib/app-utils"
 
 interface Props {
   posts: PostItemType[]
@@ -18,20 +19,18 @@ interface Props {
 }
 
 const PostsList = styled.ul`
-  border: 1px solid red;
   ${flexColumn()};
 `
 
 const Tags = styled.ul`
   ${flexRow({justifyContent: "space-evenly"})}
-  border: 1px solid red;
   width: 40rem;
   margin: 0 auto;
   margin-bottom: 1rem;
   padding: 0.5rem;
 `
 
-const TagButton = styled.li`
+const TagItem = styled.li`
   background-color: ${colors.colorTextPrimary};
   min-width: 3em;
   text-align: center;
@@ -51,30 +50,6 @@ const topics = [
   "Software engineering",
   "and more...",
 ]
-
-const getFilteredPost = (
-  posts: PostItemType[],
-  selectedTags: Array<string>,
-) => {
-  const result: PostItemType[] = []
-  for (const post of posts) {
-    for (const tag of selectedTags) {
-      if (post.tags.includes(tag)) {
-        result.push(post)
-      }
-    }
-  }
-
-  const map = new Map()
-  const finalResult: PostItemType[] = []
-  for (const post of result) {
-    if (!map.has(post.id)) {
-      map.set(post.id, true)
-      finalResult.push(post)
-    }
-  }
-  return finalResult
-}
 
 const renderPosts = (posts: PostItemType[], filteredPosts: PostItemType[]) => {
   if (filteredPosts.length > 0) {
@@ -119,17 +94,9 @@ const BlogPage: NextPage<Props> = ({posts, uniqueTags}) => {
       </Title>
       <Tags>
         {uniqueTags.map((tag) => (
-          <TagButton key={tag}>
-            {/* <button
-              onClick={() => {
-                setSelectedTags((prevTags) => [...prevTags, tag])
-              }}
-            >
-              {tag}
-            </button> */}
-            {tag}
-            <input
-              type="checkbox"
+          <TagItem key={tag}>
+            <CheckBox
+              tag={tag}
               onChange={(e) => {
                 if (e.target.checked) {
                   setSelectedTags((prevTags) => [...prevTags, tag])
@@ -140,13 +107,10 @@ const BlogPage: NextPage<Props> = ({posts, uniqueTags}) => {
                 }
               }}
             />
-          </TagButton>
+          </TagItem>
         ))}
       </Tags>
       <PostsList>
-        {/* {posts.map((post) => (
-          <PostItem key={post.title} {...post} />
-        ))} */}
         {renderPosts(posts, getFilteredPost(posts, selectedTags))}
       </PostsList>
     </Fragment>
@@ -170,3 +134,61 @@ export const getStaticProps: GetStaticProps = async () => {
     },
   }
 }
+
+interface P {
+  tag: string
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void
+}
+const CheckBox = ({tag, onChange}: P) => (
+  <label
+    htmlFor={`tag-${tag}`}
+    css={css`
+      position: relative;
+
+      input[type="checkbox"] {
+        opacity: 0;
+        width: 1em;
+        height: 1em;
+        position: absolute;
+        top: 0.2em;
+        right: 0;
+        z-index: 2;
+      }
+      .checkbox__control {
+        display: inline-grid;
+        width: 1em;
+        height: 1em;
+        border-radius: 0.25em;
+        border: 0.1em solid currentColor;
+        margin-left: 0.5em;
+      }
+      svg {
+        transition: transform 0.1s ease-in 25ms;
+        transform: scale(0);
+        transform-origin: bottom left;
+      }
+
+      input[type="checkbox"]:checked + .checkbox__control svg {
+        transform: scale(1);
+      }
+    `}
+  >
+    {tag}
+    <input type="checkbox" onChange={onChange} />
+    <span className="checkbox__control">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <path
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="3"
+          d="M1.73 12.91l6.37 6.37L22.79 4.59"
+        />
+      </svg>
+    </span>
+  </label>
+)
