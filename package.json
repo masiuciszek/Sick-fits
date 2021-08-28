@@ -14,6 +14,7 @@
     "eslint": "eslint .",
     "lint:fix": "eslint -- --fix",
     "test:coverage": "jest --coverage",
+    "test": "jest",
     "test:watch": "jest --watch",
     "type-check": "tsc --noEmit"
   },
