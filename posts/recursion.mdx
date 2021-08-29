@@ -9,14 +9,14 @@ slug: recursion
 ---
 
 Have you seen the movie Inception where they go into other people's dreams, they could go an infinite amount of levels deep, and to know they are still in a dream they have the token that tells them if they are kept in the dream or not.
-The token will help them to not keep going deeper until we lose control and never can wake up from the dream.
-They basically don't have any base case and will run forever and never wake up from their infinitive nested dreams.
+The token will help them to not keep going deeper until they lose control and never can wake up from the dream.
+They don't have any base case and will never wake up from their infinitive nested dreams.
 
 Recursion is a powerful technique to know as a software engineer.
-Recursion is a function that calls itself until it hits our because otherwise, it will keep stuck in an infinite loop.
+Recursion is a function that calls itself until it hits the base case because otherwise, it will keep stuck in an infinite loop.
 It may return a value or it doesn't.
 That's why we need our condition on some parameter such that when we hit some condition at some point we will stop the recursion.
-It is hard to grasp of how recursive functions works but as soon you built a good mental model how they work, they can be very handy.
+It is hard to grasp how recursive functions works but as soon you built a good mental model of how they work, they can be very handy.
 
 ```ts
 const countToTen = (n: number): number => {
@@ -34,23 +34,22 @@ If we think we would be a recursive function, just for a moment.
 We just want to do as little work as possible to achieve the result, as soon we hit our base case we are done.
 Let's say we stand in a long line in the grocery shop. We want to know what time it is, so you ask the person in front of you what time it is.
 The Person in front also does not know, so he/she ask the next person.
-The next person does also not know see it goes on until we come to the cashier, cashier knows the time, and we message goes back until it reaches us again.
-So how does this example have something to do with laziness?
+The next person does also not know to see it goes on until we come to the cashier, cashier knows the time, and we message goes back until it reaches us again.
+So how does this example have something to do with laziness and recursion?
 
 If we would do this in an iterative approach we would go and ask each person what time it is until we reach the cashier, so we have gone through the whole line just to know what time it is.
 
-With the recursive approach we have just asked one person and been stating in the same place in the line and get back the same result.
-See how lazy we can be and still reach the same result.
-That's how I like to build my mental model on how recursive functions work.
+With the recursive approach, we have just asked one person and been standing in the same place in the line and got back the same result.
+See how lazy we can be and still reach the same result 🤣.
 
 ## Why ore why not use recursion?
 
-| pros                                                               | cons                                                    |
-| ------------------------------------------------------------------ | ------------------------------------------------------- |
-| Elegance and complexity                                            | make the CPU work a lot, slowness                       |
-| Reduce complex imperative loops, such as traverse a tree           | can lead out of memory fast, _StackOverflow_            |
-| Reduce time complexity, with memoization                           | Can be more complex than needed if written in a bad way |
-| Works well with data structures, like for example `graphs`,`trees` |                                                         |
+| pros                                                                | cons                                                    |
+| ------------------------------------------------------------------- | ------------------------------------------------------- |
+| Elegance and complexity                                             | make the CPU work a lot, slowness                       |
+| Reduce complex imperative loops, such as traverse a tree            | can lead out of memory fast, _StackOverflow_            |
+| Reduce time complexity, with memoization                            | Can be more complex than needed if written in a bad way |
+| Works well with data structures, like for example `graphs`, `trees` |                                                         |
 
 ## Callstack
 
@@ -61,7 +60,7 @@ Let's say you go to work one day, you want to start your day by reading a blog p
 While you reading you hearing your boss knocking on your shoulder and says: _I need you to attend the meeting in 5min_.
 
 So you now need to attend the meeting, and the reading is the second prioritized since the meeting is more important, well you can read the post after the meeting.
-Then your boss walks in again and says that you need to attend to this other meeting that you should impress some investors, and that's is what you will do, impress the investors is now more important.
+Then your boss walks in again and says that you need to attend this other meeting that you should impress some investors, and that's is what you will do, impress the investors is now more important.
 Then the boss says once again I need you to help `Tina` with her code, It is urgent and we need to ship this code into production as soon as possible.
 
 So now you can't:
@@ -72,7 +71,7 @@ So now you can't:
 
 Until you help Tina with her code.
 But once you help `Tina` it gets popped out from your to-do list and you can then impress the investors.
-After that, you can attend to the meeting.
+After that, you can attend the meeting.
 When you are done with the meeting you will have some time to read your blog post.
 This is a visualized way of how the call stack works.
 
@@ -312,21 +311,41 @@ Here we can view the full path of our new node that gets inserted
 
 <Image src="/static/images/insert-node.svg" height={500} width={800} />
 
-Lets take a look on how the implementation would look like.
+Let’s take a look at how the implementation would look like.
 
 ```ts
-const insert = (head: Node, data: number) => {
-  const newNode = new Node(data)
-  if (head === null) {
-    head = newNode
-    return head
+class Node {
+  value: number
+  left: null | Node
+  right: null | Node
+  constructor(value: number) {
+    this.value = value
+    this.left = null
+    this.right = null
   }
-  if (head.data < data) {
-    head.right = insert(head.right, data)
-  } else {
-    head.left = insert(head.left, data)
+}
+
+class Tree {
+  root: null | Node
+  constructor() {
+    this.root = null
   }
-  return node
+
+  insert(value: number) {
+    this.root = this.insertRec(this.root, value)
+  }
+  insertRec(root: Node | null, value: number) {
+    if (root === null) {
+      root = new Node(value)
+      return root
+    }
+    if (value < root.value) {
+      root.left = this.insertRec(root.left, value)
+    } else {
+      root.right = this.insertRec(root.right, value)
+    }
+    return root
+  }
 }
 ```
 
@@ -335,20 +354,52 @@ const insert = (head: Node, data: number) => {
 - If data is less than the node we will recurse to the left of the tree.
 - Finally, we will return the root node of the tree
 
-Let's take a look at the callstack.
+## Optimization
 
-### Using recursion in your front end application.
+The final part, how we can optimize recursion. Two most common technique to optimize our recursive functions is memorization and tail recursion.
+With memorization, we can demonstrate the Fibonacci function again, using a hash map to store the already calculated value.
+If we already calculated the value, then we will return it.
 
-We can also use recursion in our projects, and sometimes it is a much more handy, element and better tool to use then iterate over a list.
-For example if we want to render a tree data structure in our React application…
-We don't know how many level deep the tree has, and we still want to make it dynamic so if the tree grows we don't want to update the code all the time, this can simply be solved using recursion.
-The true fact is that our machines using recursion under the hood, when we try to run a script that searches for folders and files on our machine.
+```ts
+const fn = (n: number) => (fn: (n: number) => number) => {
+  const map = new Map<number, number>()
+  map.set(1, 1)
+  map.set(0, 1)
 
-For example a folder structure where we have the main root folder, and it can have children as folders and inside the folders we have our files.
+  // Chck if we already have calculated the value
+  if (map.has(n)) {
+    return map.get(n) // return the calculated value
+  }
+  const res = fn(n) // calculate
+  map.set(n, res) // store the new calculated value
+  return res
+}
 
-We can build this with React, here is the full code example [repository](https://github.com/masiucd/Recursive-render) if you want to check out it out.
+const fib = (n: number): number => {
+  if (n < 2) return n
+  return fib(n - 1) + fib(n - 2)
+}
 
-We want to stop the recursion as soon we hit our base case, if there is no more items left.
+const result = fn(30)(fib)
+```
+
+Using tail recursion is more common in pure functional languages like `Haskell` for example. The Haskell compiler has it already built-in. It is not used as frequently in other languages.
+One note is that `Safari` has some support to optimize the recursive function for `JavaScript` using tail recursion.
+What tail recursion does is that it avoids at any certain point stack overflows.
+It will optimize the number of stack frames that get added to the call stack.
+
+### Using recursion in your front-end application.
+
+We can also use recursion in our projects, and sometimes it is a much handier, element, and better tool to use than iterate over a list.
+For example, if we want to render a tree data structure in our React application…
+We don't know how many levels deep the tree has, and we still want to make it dynamic so if the tree grows we don't want to update the code all the time, this can simply be solved using recursion.
+The fact is that our machines using recursion under the hood when we try to run a script that searches for folders and files on our machine.
+
+For example, a folder structure where we have the main root folder, and it can have children as folders, and inside the folders, we have our files.
+
+We can build this with React, here is the full code example [repository](https://github.com/masiucd/Recursive-render) if you want to check it out.
+
+We want to stop the recursion as soon we hit our base case if there are no more items left.
 
 ```tsx
 const Tree: FC<TreeProps> = ({treeData, parentId = 0, level = 0}) => {
@@ -380,7 +431,7 @@ const App = () => (
 )
 ```
 
-This tecnique was something I got inspred and learned from [Kyle Shelvin](https://kyleshevlin.com/recursive-react-components) since I had a situation at my job where I need to build something similar to this.
+This technique was something I got inspired and learned from [Kyle Shelvin](https://kyleshevlin.com/recursive-react-components) since I had a situation at my job where I need to build something similar to this.
 
 ### Conclusion
 
@@ -389,3 +440,8 @@ This tecnique was something I got inspred and learned from [Kyle Shelvin](https:
 - Recursive functions are lazy, the function will only do the least amount of work to do the work.
 - In some cases make the code more readable and elegant but remember that our CPU will work harder.
 - Reduce complex logic, for example when we traverse a tree data structure.
+
+#### Thanks to:
+
+- [The Simple Engineer](https://github.com/schachte)
+- [Kyle Shelvin](https://kyleshevlin.com/)

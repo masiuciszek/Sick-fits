@@ -36,6 +36,7 @@ const TagItem = styled.li`
   text-align: center;
   border-radius: ${borderRadius.borderRadiusS};
   padding: 0.2rem;
+  color: ${colors.colorBgBackground};
   a {
     font-size: 0.85rem;
   }

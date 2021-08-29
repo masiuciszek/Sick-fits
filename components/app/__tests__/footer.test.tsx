@@ -5,6 +5,6 @@ import Footer from "../footer"
 describe("footer", () => {
   test("should ", () => {
     render(<Footer />)
-    screen.debug()
+    // screen.debug()
   })
 })
