@@ -63,6 +63,7 @@ const LinkWrapper = styled.div`
     display: flex;
     position: relative;
     align-items: center;
+    font-size: 1rem;
     svg {
       margin-left: 0.3rem;
     }

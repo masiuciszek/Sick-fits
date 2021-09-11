@@ -62,7 +62,7 @@ const LinkGroup = styled.div`
     justify-content: center;
     height: 2.5rem;
     padding: 0.5em;
-
+    font-size: 1rem;
     &:hover {
       background-color: ${colors.colorTextPrimary};
     }
