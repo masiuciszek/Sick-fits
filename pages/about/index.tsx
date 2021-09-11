@@ -7,6 +7,7 @@ import usePersonDateInfo from "@hooks/person-date-info"
 import {colors, fonts} from "@styles/styled-record"
 import {NextPage} from "next"
 import {Fragment} from "react"
+import {useInView} from "react-intersection-observer"
 
 const Article = styled.article`
   padding: 0.75rem 0.5rem;
@@ -15,14 +16,16 @@ const Article = styled.article`
   margin: 0 auto;
   p {
     margin-bottom: 1.2rem;
-    line-height: 0.8cm;
     font-family: ${fonts.operaorMono};
+    line-height: 1.8cm;
+    font-size: 1.5rem;
   }
   ul {
     padding: 1rem 0;
     list-style: square inside;
     li {
       margin-bottom: 1rem;
+      font-size: 1.5rem;
     }
   }
 `
@@ -33,14 +36,14 @@ const Strong = styled.strong`
 const thingsILikeToDo = [
   "Running",
   "Reading",
-  "teach/learn",
-  "create stuff (Coding)",
+  "Teach/Learn",
+  "Create stuff (Coding)",
   "Take pictures",
 ]
 const techs = ["JavaScript", "React", "Java", "Node"]
 
 const AboutPage: NextPage = () => {
-  const {timeSinceStarting, age} = usePersonDateInfo({
+  const {timeSinceStarting} = usePersonDateInfo({
     updated: 1500,
   })
   return (
@@ -69,13 +72,20 @@ const AboutPage: NextPage = () => {
           </h1>
         </Title>
         <p>
-          Hi, I am Marcell, and I am a software developer.
+          Hi and welcome, I am Marcell, and I am a software developer from
+          Gothenburg Sweden.
           <Highlighter
             incomingStyles={css`
               border-bottom: 1px solid ${colors.colorTextPrimary};
             `}
           ></Highlighter>
-          I am {age} years old and been working as a software developer since{" "}
+        </p>
+        <p>
+          I felt in love with programming <Highlighter>2018</Highlighter> after
+          deciding to start a new chapter in my life.
+        </p>
+        <p>
+          I have been working professionally as a software developer since{" "}
           <Highlighter
             incomingStyles={css`
               border-bottom: 1px solid ${colors.colorTextPrimary};
@@ -84,15 +94,13 @@ const AboutPage: NextPage = () => {
             {timeSinceStarting}
           </Highlighter>
           , ms ago.
-          {/* <Highlighter
-            incomingStyles={css`
-              border-bottom: 1px solid ${colors.colorTextPrimary};
-            `}
-          >
-            {timeAsDays} days
-          </Highlighter>{" "} */}
         </p>
-        <p>Working daily with tools like</p>
+        <p>
+          And since then it has been a amazing journey for me and I am excited
+          for every new day that is coming up.
+        </p>
+
+        <p>Tools that I work daily with are:</p>
         <ul>
           {techs.map((tech) => (
             <li key={tech}>
@@ -106,35 +114,12 @@ const AboutPage: NextPage = () => {
           work in a daily basis. Where I am close to my family and friends.
         </p>
         <p>
-          If I could in a simple way describe about me and what is my biggest
-          passion is then it would be programming and go out for long runs and
-          some good books on that. But to make this section more interesting, I
-          guess I will write a bit more about myself.
-        </p>
-
-        {/* <p>
-          Before I started programming, I have always been into sports since I
-          was a kid. Football and martial arts has been what I have been active
-          in, but since I turned 16 I had to choose one of the sports, I kept
-          with the martial arts and when I turned 18 I moved to Thailand to
-          become a professional Boxer.
+          When I am not sitting in front of my machine, I like to go for long
+          runs, take some beautiful pictures, be with my friends and watch
+          football games.
         </p>
         <p>
-          I found the passion for programming When I lived in Asia, I met a
-          friend who was a developer. He inspired me and I knew that this is
-          defensively, something that I want to work with.
-        </p>
-        <p>
-          2018 I moved back to Europe, to start the school and to fulfill my
-          dream to become a professional software developer.
-        </p>
-        <p>
-          June 2021 was the year I graduated, and I got a full-time Job at the
-          place I had my internship. And here I am, trying to learn and grow as,
-          a developer for every day.
-        </p> */}
-        <p>
-          What I like to do is...
+          So... some of my hobbies are...
           <ul>
             {thingsILikeToDo.map((todo) => (
               <li key={todo}>
@@ -151,9 +136,7 @@ const AboutPage: NextPage = () => {
           <p>
             <Strong>I love to read</Strong>, when I really have some time over
             or has the whole weekend free, reading is my highest priority. I
-            love to read all from{" "}
-            <Highlighter>computer science/programming</Highlighter> books, some
-            great novels and all different kind of books.
+            love to read all kind of books.
           </p>
           <p>
             <Strong>I love to teach and learn</Strong>, learning new stuff and
@@ -165,8 +148,8 @@ const AboutPage: NextPage = () => {
         </p>
         <p>
           <Strong>I love to create stuff</Strong> Yes I love to program on my
-          spare time as well, improve some skills and learn new stuff, new
-          technologies and tools,. Working with open-source or solving my own
+          spare time as well, improve my skills and learn new stuff, new
+          technologies and tools. Working with open-source or solving my own
           daily problems. Where I can build a tool that I need daily.
         </p>
         <p>
@@ -198,8 +181,7 @@ const AboutPage: NextPage = () => {
               pull request
             </a>
           </Highlighter>{" "}
-          to make som changes. It will help me and all the other that read the
-          blog posts.
+          to make som changes. It will help me a lot, thank you.
         </p>
       </Article>
     </Fragment>
