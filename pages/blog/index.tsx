@@ -5,7 +5,7 @@ import Seo from "@components/seo/seo"
 import {css} from "@emotion/react"
 import styled from "@emotion/styled"
 import {flexColumn, flexRow, pxToRem} from "@styles/css-helpers"
-import {borderRadius, colors, fonts} from "@styles/styled-record"
+import {borderRadius, colors, elevations, fonts} from "@styles/styled-record"
 import {NextPage} from "next"
 import {GetStaticProps} from "next"
 import {ChangeEvent, Fragment, useState} from "react"
@@ -27,19 +27,23 @@ const Tags = styled.ul`
   width: 40rem;
   margin: 0 auto;
   margin-bottom: 1rem;
-  padding: 0.5rem;
+  padding: 0.2rem;
+  background-color: ${colors.colorGray300};
+  box-shadow: ${elevations.shadowLg};
+  border: 1px solid ${colors.colorGray400};
+  border-radius: ${borderRadius.borderRadiusM};
+  min-height: 4em;
 `
 
 const TagItem = styled.li`
-  background-color: ${colors.colorTextPrimary};
-  min-width: 3em;
+  background-color: ${colors.colorGray400};
+  color: ${colors.colorTextPrimary};
+  min-width: 4em;
   text-align: center;
   border-radius: ${borderRadius.borderRadiusS};
   padding: 0.2rem;
-  color: ${colors.colorBgBackground};
-  a {
-    font-size: 0.85rem;
-  }
+  font-size: 0.85rem;
+  text-transform: capitalize;
 `
 
 const topics = [
@@ -81,6 +85,7 @@ const BlogPage: NextPage<Props> = ({posts, uniqueTags}) => {
             display: flex;
             flex-flow: row wrap;
             justify-content: center;
+
             li {
               margin-left: ${pxToRem(10)};
               border-bottom: 1px solid ${colors.colorTextPrimary};
@@ -153,6 +158,7 @@ const CheckBox = ({tag, onChange}: P) => (
         position: absolute;
         top: 0.2em;
         right: 0;
+        cursor: pointer;
         z-index: 2;
       }
       .checkbox__control {
@@ -171,10 +177,11 @@ const CheckBox = ({tag, onChange}: P) => (
 
       input[type="checkbox"]:checked + .checkbox__control svg {
         transform: scale(1);
+        color: ${colors.colorHighlight};
       }
     `}
   >
-    {tag}
+    {tag.toLowerCase()}
     <input type="checkbox" onChange={onChange} />
     <span className="checkbox__control">
       <svg

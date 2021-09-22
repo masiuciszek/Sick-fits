@@ -1,28 +1,26 @@
 import PostLayout from "@components/blog/post-layout"
 import PostNavigation from "@components/blog/post-navigation"
-import {tagsStyles} from "@components/blog/styles"
 import {PostItemType} from "@components/blog/types"
 import Brackets from "@components/icons/brackets"
 import Hash from "@components/icons/hash"
 import CodeBlock from "@components/mdx/code-block"
 import Counter from "@components/mdx/examples/counter"
 import Seo from "@components/seo/seo"
-import styled from "@emotion/styled"
-import {pxToRem} from "@styles/css-helpers"
-import {colors, fonts, sizes} from "@styles/styled-record"
+import {colors, sizes} from "@styles/styled-record"
 import {formatDate} from "@utils/helpers"
 import {getAllPosts, getPostBySlug} from "lib/api"
 import {serializeMdx} from "lib/markdown-to-html"
-import {GetStaticPaths, GetStaticProps} from "next"
+import {GetStaticProps} from "next"
 import {useRouter} from "next/router"
 import {MDXRemote, MDXRemoteSerializeResult} from "next-mdx-remote"
 import {ParsedUrlQuery} from "querystring"
-import {FC, Fragment} from "react"
+import React, {FC, Fragment} from "react"
 type PostItem = Omit<PostItemType, "slug">
+import {EditPostLink, List, PostWrapper} from "@components/blog/styles"
 import Title from "@components/common/title"
 import {css} from "@emotion/react"
 import {above} from "@styles/media-query"
-import Image from "next/image"
+import Image, {ImageProps} from "next/image"
 
 interface FrontMatter extends PostItem {
   date: string
@@ -113,6 +111,14 @@ const PostPage: FC<Props> = ({postData, postSlugs}) => {
 }
 export default PostPage
 
+export const getStaticPaths = async () => {
+  const posts = getAllPosts({fields: ["slug"]})
+  const paths = posts.map(({slug}) => ({params: {slug}}))
+  return {
+    paths,
+    fallback: true,
+  }
+}
 interface Result {
   postData: MDXRemoteSerializeResult
 }
@@ -131,7 +137,7 @@ export const getStaticProps: GetStaticProps<Result, Params> = async ({
     "created",
     "tags",
     "spoiler",
-  ])
+  ]) as {[key: string]: string}
   const allPosts = getAllPosts({
     fields: ["slug", "updated"],
     sort: "DESC",
@@ -150,67 +156,10 @@ export const getStaticProps: GetStaticProps<Result, Params> = async ({
   }
 }
 
-export const getStaticPaths: GetStaticPaths = () => {
-  const posts = getAllPosts({fields: ["slug"]})
-  return {
-    paths: posts.map(({slug}) => ({params: {slug}})),
-    fallback: true,
-  }
-}
-
-const PostWrapper = styled.article`
-  padding: 0.25rem;
-  max-width: 950px;
-  margin: ${pxToRem(40)} auto ${pxToRem(10)};
-  position: relative;
-`
-
-const List = styled.ul`
-  display: flex;
-  margin-bottom: 0.75rem;
-  li {
-    ${tagsStyles};
-  }
-`
-
-const EditPostLink = styled.a`
-  position: absolute;
-  top: -1.65rem;
-  right: 0rem;
-  @media ${above.betweenTabletMobileL} {
-    top: 1rem;
-    right: 2rem;
-  }
-  display: flex;
-  align-items: center;
-  font-size: ${pxToRem(10)};
-  padding: ${pxToRem(4)};
-  svg {
-    margin-right: ${pxToRem(5)};
-  }
-  &:after {
-    position: absolute;
-    content: "";
-    background-color: ${colors.colorTextPrimary};
-    width: 40%;
-    height: 2px;
-    bottom: 0;
-    left: ${pxToRem(7)};
-    transition: 200ms ease-in-out width;
-  }
-  &:hover {
-    opacity: 0.6;
-    &:after {
-      width: 80%;
-    }
-  }
-`
-
-// IntersectionObserverEntry
 const components = {
   code: CodeBlock,
   Counter,
-  Image: (props: any) => {
+  Image: (props: ImageProps) => {
     return <Image alt={props.alt || "Image"} {...props} />
   },
 

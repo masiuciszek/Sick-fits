@@ -114,3 +114,51 @@ export const TagsList = styled.ul`
     }
   }
 `
+
+export const PostWrapper = styled.article`
+  padding: 0.25rem;
+  max-width: 950px;
+  margin: ${pxToRem(40)} auto ${pxToRem(10)};
+  position: relative;
+`
+
+export const List = styled.ul`
+  display: flex;
+  margin-bottom: 0.75rem;
+  li {
+    ${tagsStyles};
+  }
+`
+
+export const EditPostLink = styled.a`
+  position: absolute;
+  top: -1.65rem;
+  right: 0rem;
+  @media ${above.betweenTabletMobileL} {
+    top: 1rem;
+    right: 2rem;
+  }
+  display: flex;
+  align-items: center;
+  font-size: ${pxToRem(10)};
+  padding: ${pxToRem(4)};
+  svg {
+    margin-right: ${pxToRem(5)};
+  }
+  &:after {
+    position: absolute;
+    content: "";
+    background-color: ${colors.colorTextPrimary};
+    width: 40%;
+    height: 2px;
+    bottom: 0;
+    left: ${pxToRem(7)};
+    transition: 200ms ease-in-out width;
+  }
+  &:hover {
+    opacity: 0.6;
+    &:after {
+      width: 80%;
+    }
+  }
+`
