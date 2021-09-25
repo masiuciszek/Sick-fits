@@ -42,7 +42,7 @@ const Hobbies = () => {
             scale: inView ? 1 : 0.2,
           }}
           exit={{x: -10000, opacity: 0.45, scale: 0.2}}
-          transition={{duration: 0.55, ease: "easeOut", delay: 0.2}}
+          transition={{duration: 0.35, ease: "easeOut", delay: 0.2}}
         >
           <p>
             <Strong>I love to run</Strong> nothing beats a long run after some

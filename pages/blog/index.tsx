@@ -49,7 +49,7 @@ const TagItem = styled.li`
 const topics = [
   "React",
   "Css",
-  "Rust",
+  "Go",
   "JavaScript",
   "Programing paradigms",
   "Software engineering",

@@ -1,4 +1,3 @@
-import {css} from "@emotion/react"
 import {length} from "@utils/helpers"
 import Link from "next/link"
 
@@ -27,7 +26,7 @@ const PostNavigation = ({
       )}
 
       {currentPostIndex < length(postSlugs) - 1 ? (
-        <Link href={`/blog/${nextPostSlug}`} css={css``}>
+        <Link href={`/blog/${nextPostSlug}`}>
           <a> {nextPostSlug} </a>
         </Link>
       ) : (

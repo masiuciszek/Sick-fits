@@ -2,6 +2,7 @@ import Hobbies from "@components/about/hobbies"
 import {PageArticle, Strong} from "@components/about/styles"
 import Highlighter from "@components/common/highlighter"
 import Title from "@components/common/title"
+import Welcome from "@components/icons/welcome"
 import Seo from "@components/seo/seo"
 import {css} from "@emotion/react"
 import useHasMounted from "@hooks/has-mounted"
@@ -42,6 +43,7 @@ const AboutPage: NextPage = () => {
             me
           </h1>
         </Title>
+        <Welcome />
         <p>
           Hi and welcome, I am Marcell, and I am a software developer from
           Gothenburg Sweden.
@@ -79,7 +81,7 @@ const AboutPage: NextPage = () => {
           ))}
         </ul>
         <p>
-          <Strong>I live</Strong> and work in Gothenburg Sweden where I live and
+          <Strong>I live</Strong> and work in Göteborg Sweden where I live and
           work in a daily basis. Where I am close to my family and friends.
         </p>
         <p>
