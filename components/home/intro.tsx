@@ -19,7 +19,7 @@ const Intro = () => (
       <span>
         {" "}
         Here is where I share my thoughts , ideas and experience as a software
-        developer, and everything that interests me that I would love to share
+        developer, and everything that interests me that I would love to share,
         Topics like <Highlighter>computer science</Highlighter>,{" "}
         <Highlighter>React</Highlighter>,{" "}
         <Highlighter>software engineering</Highlighter>, and a good{" "}
