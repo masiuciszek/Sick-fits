@@ -9,7 +9,7 @@ import {PostItemType} from "./types"
 const PostItem: FC<PostItemType> = ({title, spoiler, updated, tags, slug}) => (
   <StyledItem>
     <p className="title-and-date">
-      {title} {formatDate(updated)}{" "}
+      {title} <span>{formatDate(updated)}</span>{" "}
     </p>
     <p className="spoiler">{spoiler}</p>
     <TagsList>

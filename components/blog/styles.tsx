@@ -75,6 +75,9 @@ export const StyledItem = styled.li`
   .title-and-date {
     font-size: ${sizes.h4};
     color: ${colors.colorTextPrimary};
+    span {
+      color: ${colors.colorGray500};
+    }
   }
   .spoiler {
     margin-bottom: ${pxToRem(10)};

@@ -26,7 +26,12 @@ const Navigation = (): JSX.Element => {
     <Nav data-testid="components-app-navigation">
       <NavList>
         {routes.map(({name, path}) => (
-          <RouteLink key={name} name={name} path={path} active={activeLink(path)} />
+          <RouteLink
+            key={name}
+            name={name}
+            path={path}
+            active={activeLink(path)}
+          />
         ))}
       </NavList>
     </Nav>

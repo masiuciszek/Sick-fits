@@ -235,7 +235,7 @@ const MenuDialog = ({closeMenu}: Props) => {
 
   return createPortal(
     <Overlay
-      data-testid="components-app-MenuDialog"
+      data-testid="components.app.menu-dialog"
       role="dialog"
       tabIndex={-1}
       aria-label="search"

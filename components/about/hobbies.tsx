@@ -45,7 +45,7 @@ const Hobbies = () => {
           transition={{duration: 0.35, ease: "easeOut", delay: 0.2}}
         >
           <p>
-            <Strong>I love to run</Strong> nothing beats a long run after some
+            <Strong>I love to run,</Strong> nothing beats a long run after some
             hours in front of the machine. To get a mental brake and to recover,
             feel fresh until the next session is an important piece of my daily
             life puzzle to be productive, efficient and continue my work.
