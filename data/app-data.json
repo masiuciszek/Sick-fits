@@ -4,5 +4,11 @@
   },
   {
     "name": "recursion"
+  },
+  {
+    "name": "heap-stack-memory"
+  },
+  {
+    "name": "pointers"
   }
 ]

@@ -227,6 +227,7 @@ const MenuDialog = ({closeMenu}: Props) => {
     filterValue: "",
     applicationData: appData as Array<AppDataItem>,
   })
+
   const ref = useRef(null)
   useOnClickOutside(ref, closeMenu)
 
