@@ -110,6 +110,12 @@ const Layout = styled.section`
       font-family: ${fonts.operaorMono};
     }
   }
+  a {
+    color: ${colors.colorTextPrimary};
+    font-style: italic;
+    font-family: ${fonts.radnika};
+    border-bottom: 1px solid ${colors.colorTextPrimary};
+  }
   ${tableStyles};
 `
 
@@ -150,7 +156,7 @@ const PostLayout: FC = ({children}) => {
       {aboveTablet && (
         <motion.div style={{scale}} css={progressStyles(progress)} />
       )}
-      <motion.aside>
+      <motion.article>
         {children}
         {progress > LIMIT_SHOW_SCROLL_UPP_BUTTON && (
           <ScrollToButton
@@ -162,7 +168,7 @@ const PostLayout: FC = ({children}) => {
             scrollToHandler={scrollToHandler}
           />
         )}
-      </motion.aside>
+      </motion.article>
     </Layout>
   )
 }

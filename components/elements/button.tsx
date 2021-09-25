@@ -8,7 +8,6 @@ type BtnType = "solid" | "default" | "primary"
 
 export const buttonStyles = css`
   color: ${colors.colorTextText};
-  text-transform: capitalize;
   border: 2px solid ${colors.colorTextText};
   min-width: ${pxToRem(90)};
   font-size: ${pxToRem(17)};

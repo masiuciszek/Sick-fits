@@ -62,10 +62,7 @@ const Header = () => {
   const {storedTheme, handleTheme} = useTheme()
   const isAboveTablet = useMediaQuery(above.tablet)
   const {
-    state: showMenu,
-    toTrue: openMenu,
-    toFalse: closeMenu,
-    toggle: toggleMenu,
+    handlersList: [showMenu, toggleMenu, closeMenu, openMenu],
   } = useToggle()
 
   useHotkeys("ctrl+k", toggleMenu)

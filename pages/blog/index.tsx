@@ -4,35 +4,68 @@ import Title from "@components/common/title"
 import Seo from "@components/seo/seo"
 import {css} from "@emotion/react"
 import styled from "@emotion/styled"
-import {pxToRem} from "@styles/css-helpers"
-import {colors, fonts} from "@styles/styled-record"
+import {flexColumn, flexRow, pxToRem} from "@styles/css-helpers"
+import {borderRadius, colors, elevations, fonts} from "@styles/styled-record"
 import {NextPage} from "next"
 import {GetStaticProps} from "next"
-import {Fragment} from "react"
+import {ChangeEvent, Fragment, useState} from "react"
 
 import {getAllPosts} from "../../lib/api"
+import {getFilteredPost} from "../../lib/app-utils"
 
 interface Props {
   posts: PostItemType[]
+  uniqueTags: Array<string>
 }
 
 const PostsList = styled.ul`
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
+  ${flexColumn()};
 `
+
+const Tags = styled.ul`
+  ${flexRow({justifyContent: "space-evenly"})}
+  width: 40rem;
+  margin: 0 auto;
+  margin-bottom: 1rem;
+  padding: 0.2rem;
+  background-color: ${colors.colorGray300};
+  box-shadow: ${elevations.shadowLg};
+  border: 1px solid ${colors.colorGray400};
+  border-radius: ${borderRadius.borderRadiusM};
+  min-height: 4em;
+`
+
+const TagItem = styled.li`
+  background-color: ${colors.colorGray400};
+  color: ${colors.colorTextPrimary};
+  min-width: 4em;
+  text-align: center;
+  border-radius: ${borderRadius.borderRadiusS};
+  padding: 0.2rem;
+  font-size: 0.85rem;
+  text-transform: capitalize;
+`
+
 const topics = [
   "React",
   "Css",
-  "Rust",
+  "Go",
   "JavaScript",
   "Programing paradigms",
   "Software engineering",
   "and more...",
 ]
 
-const BlogPage: NextPage<Props> = ({posts}) => {
+const renderPosts = (posts: PostItemType[], filteredPosts: PostItemType[]) => {
+  if (filteredPosts.length > 0) {
+    return filteredPosts.map((post) => <PostItem key={post.title} {...post} />)
+  }
+  return posts.map((post) => <PostItem key={post.title} {...post} />)
+}
+
+const BlogPage: NextPage<Props> = ({posts, uniqueTags}) => {
+  const [selectedTags, setSelectedTags] = useState<Array<string>>([])
+
   return (
     <Fragment>
       <Seo title="All posts" />
@@ -52,6 +85,7 @@ const BlogPage: NextPage<Props> = ({posts}) => {
             display: flex;
             flex-flow: row wrap;
             justify-content: center;
+
             li {
               margin-left: ${pxToRem(10)};
               border-bottom: 1px solid ${colors.colorTextPrimary};
@@ -64,10 +98,26 @@ const BlogPage: NextPage<Props> = ({posts}) => {
           ))}
         </ul>
       </Title>
-      <PostsList>
-        {posts.map((post) => (
-          <PostItem key={post.title} {...post} />
+      <Tags>
+        {uniqueTags.map((tag) => (
+          <TagItem key={tag}>
+            <CheckBox
+              tag={tag}
+              onChange={(e) => {
+                if (e.target.checked) {
+                  setSelectedTags((prevTags) => [...prevTags, tag])
+                } else {
+                  setSelectedTags((prevTags) =>
+                    prevTags.filter((t) => t !== tag),
+                  )
+                }
+              }}
+            />
+          </TagItem>
         ))}
+      </Tags>
+      <PostsList>
+        {renderPosts(posts, getFilteredPost(posts, selectedTags))}
       </PostsList>
     </Fragment>
   )
@@ -79,10 +129,74 @@ export const getStaticProps: GetStaticProps = async () => {
   const posts = getAllPosts({
     fields: ["title", "spoiler", "updated", "tags", "slug"],
   })
+  const uniqueTags = posts
+    .flatMap(({tags}) => tags)
+    .filter((tag, i, list) => list.indexOf(tag) === i)
 
   return {
     props: {
       posts,
+      uniqueTags,
     },
   }
 }
+
+interface P {
+  tag: string
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void
+}
+const CheckBox = ({tag, onChange}: P) => (
+  <label
+    htmlFor={`tag-${tag}`}
+    css={css`
+      position: relative;
+
+      input[type="checkbox"] {
+        opacity: 0;
+        width: 1em;
+        height: 1em;
+        position: absolute;
+        top: 0.2em;
+        right: 0;
+        cursor: pointer;
+        z-index: 2;
+      }
+      .checkbox__control {
+        display: inline-grid;
+        width: 1em;
+        height: 1em;
+        border-radius: 0.25em;
+        border: 0.1em solid currentColor;
+        margin-left: 0.5em;
+      }
+      svg {
+        transition: transform 0.1s ease-in 25ms;
+        transform: scale(0);
+        transform-origin: bottom left;
+      }
+
+      input[type="checkbox"]:checked + .checkbox__control svg {
+        transform: scale(1);
+        color: ${colors.colorHighlight};
+      }
+    `}
+  >
+    {tag.toLowerCase()}
+    <input type="checkbox" onChange={onChange} />
+    <span className="checkbox__control">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <path
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="3"
+          d="M1.73 12.91l6.37 6.37L22.79 4.59"
+        />
+      </svg>
+    </span>
+  </label>
+)

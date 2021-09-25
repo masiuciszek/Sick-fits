@@ -1,19 +1,22 @@
+import cuid from "cuid"
 import fs from "fs"
 import matter from "gray-matter"
 import {join} from "path"
-interface Item {
-  [key: string]: string
-}
 
-const getDirectory = (directory: string) => {
-  return join(process.cwd(), directory)
-}
+type Field =
+  | "date"
+  | "id"
+  | "keywords"
+  | "slug"
+  | "spoiler"
+  | "tags"
+  | "title"
+  | "updated"
+  | "content"
 
+const getDirectory = (directory: string) => join(process.cwd(), directory)
 const postsDirectory = getDirectory("posts")
-
-export const getPostSlugs = () => {
-  return fs.readdirSync(postsDirectory)
-}
+export const getPostSlugs = () => fs.readdirSync(postsDirectory)
 
 export const getPostBySlug = (slug: string, fields: string[] = []) => {
   const fixedSlug = slug.replace(/\.mdx$/, "")
@@ -22,10 +25,10 @@ export const getPostBySlug = (slug: string, fields: string[] = []) => {
   const fileContents = fs.readFileSync(fullPath, "utf8")
 
   const {data: frontMatter, content} = matter(fileContents)
-
-  const postItem: Item = {}
+  const postItem: Record<Field | string, string | string[] | number> = {}
 
   for (const field of fields) {
+    postItem.id = cuid()
     if (field === "slug") {
       postItem[field] = fixedSlug
     }

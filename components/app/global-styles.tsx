@@ -1,4 +1,5 @@
 import {css, Global} from "@emotion/react"
+import {buttonResetStyles} from "@styles/css-helpers"
 
 export const GlobalStyles = () => (
   <Global
@@ -225,6 +226,9 @@ export const GlobalStyles = () => (
       a {
         text-decoration: none;
         color: var(--color-text-text);
+      }
+      button {
+        ${buttonResetStyles};
       }
     `}
   />

@@ -19,7 +19,7 @@ const Intro = () => (
       <span>
         {" "}
         Here is where I share my thoughts , ideas and experience as a software
-        developer, and everything that interests me that I would love to share
+        developer, and everything that interests me that I would love to share,
         Topics like <Highlighter>computer science</Highlighter>,{" "}
         <Highlighter>React</Highlighter>,{" "}
         <Highlighter>software engineering</Highlighter>, and a good{" "}
@@ -63,6 +63,7 @@ const LinkWrapper = styled.div`
     display: flex;
     position: relative;
     align-items: center;
+    font-size: 1rem;
     svg {
       margin-left: 0.3rem;
     }

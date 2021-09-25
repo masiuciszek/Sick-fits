@@ -1,4 +1,5 @@
 export interface PostItemType {
+  id: number
   title: string
   spoiler: string
   date: string

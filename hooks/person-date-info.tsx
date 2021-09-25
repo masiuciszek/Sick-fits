@@ -21,7 +21,7 @@ function usePersonDateInfo({
     timeAsYears: Math.floor(timeSinceStarting / 1000 / 60 / 60 / 24 / 365),
     timeAsDays: Math.floor(timeSinceStarting / 1000 / 60 / 60 / 24),
 
-    age,
+    age: Math.floor(age / 1000 / 60 / 60 / 24 / 365),
     // milliseconds, / scends / minutes / hours / and days
     ageAsYears: Math.floor(age / 1000 / 60 / 60 / 24 / 365),
   }

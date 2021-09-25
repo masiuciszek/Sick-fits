@@ -16,10 +16,10 @@ const Home: NextPage = () => (
         <HiIAmMarcell />
         <LinkGroup>
           <Link href="/blog">
-            <a>blog</a>
+            <a>Blog</a>
           </Link>
-          <Link href="/bites">
-            <a>bites</a>
+          <Link href="/contact">
+            <a>Get in touch</a>
           </Link>
         </LinkGroup>
       </CtaColumn>
@@ -57,7 +57,12 @@ const LinkGroup = styled.div`
   flex-flow: flow wrap;
   a {
     ${buttonStyles};
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.5rem;
+    padding: 0.5em;
+    font-size: 1rem;
     &:hover {
       background-color: ${colors.colorTextPrimary};
     }
